@@ -1,0 +1,101 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34616.47
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Apresentacao", "01 - Apresentacao", "{CFD3F850-D3B6-4C8A-817C-D7FDBF68AC4D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Domain", "02 - Domain", "{F8B9242E-78C6-4237-AA1C-5100A0276BF6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 - Infraestrutura", "03 - Infraestrutura", "{73346350-30C0-4828-8EF9-4A2D5DF2A8C6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 - CrossCutting", "04 - CrossCutting", "{1631223A-2E69-4D27-82C2-58651840B7EC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cepedi.Serasa.Cadastro.IoC", "src\Cepedi.Serasa.Cadastro.IoC\Cepedi.Serasa.Cadastro.IoC.csproj", "{BF19B809-AF26-4AB4-99FD-55B6660C3872}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06 - Tests", "06 - Tests", "{2D4A6734-55E9-46FD-BC86-1A6B9652198C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cepedi.Serasa.Cadastro.Api.Tests", "tests\Cepedi.Serasa.Cadastro.Api.Tests\Cepedi.Serasa.Cadastro.Api.Tests.csproj", "{3B6EEBEF-C0AF-4872-BDAC-39163EFE21FA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "07 - Itens", "07 - Itens", "{083535C5-41AC-4FF7-83DA-B0034E46A0F9}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cepedi.Serasa.Cadastro.Api", "src\Cepedi.Serasa.Cadastro.Api\Cepedi.Serasa.Cadastro.Api.csproj", "{EF824647-F962-4FD8-8A38-056A49F1681C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cepedi.Serasa.Cadastro.Domain", "src\Cepedi.Serasa.Cadastro.Domain\Cepedi.Serasa.Cadastro.Domain.csproj", "{216EF55A-3D40-4FD8-95CD-14C3E510F459}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cepedi.Serasa.Cadastro.Data", "src\Cepedi.Serasa.Cadastro.Data\Cepedi.Serasa.Cadastro.Data.csproj", "{87550599-042E-4BC0-A2C5-BF6A716E81A5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cepedi.Serasa.Cadastro.Shared", "src\Cepedi.Serasa.Cadastro.Shared\Cepedi.Serasa.Cadastro.Shared.csproj", "{664C1369-D2E4-4008-AB3C-A1AA23FCCC69}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cepedi.Serasa.Cadastro.Domain.Tests", "tests\Cepedi.Serasa.Cadastro.Domain.Tests\Cepedi.Serasa.Cadastro.Domain.Tests.csproj", "{2191D0B2-EE12-48BB-8977-70BAEC8C9D2D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cepedi.Serasa.Cadastro.Data.Tests", "tests\Cepedi.Serasa.Cadastro.Data.Tests\Cepedi.Serasa.Cadastro.Data.Tests.csproj", "{2C7C5C0F-B91E-4BA3-9126-0DABB33C30B6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cepedi.Serasa.Cadastro.Performance.Test", "tests\Cepedi.Serasa.Cadastro.Performance.Test\Cepedi.Serasa.Cadastro.Performance.Test.csproj", "{90DB2DC5-E171-494E-9FC6-229DD6EC7548}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BF19B809-AF26-4AB4-99FD-55B6660C3872}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF19B809-AF26-4AB4-99FD-55B6660C3872}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF19B809-AF26-4AB4-99FD-55B6660C3872}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF19B809-AF26-4AB4-99FD-55B6660C3872}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B6EEBEF-C0AF-4872-BDAC-39163EFE21FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B6EEBEF-C0AF-4872-BDAC-39163EFE21FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B6EEBEF-C0AF-4872-BDAC-39163EFE21FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B6EEBEF-C0AF-4872-BDAC-39163EFE21FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF824647-F962-4FD8-8A38-056A49F1681C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF824647-F962-4FD8-8A38-056A49F1681C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF824647-F962-4FD8-8A38-056A49F1681C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF824647-F962-4FD8-8A38-056A49F1681C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{216EF55A-3D40-4FD8-95CD-14C3E510F459}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{216EF55A-3D40-4FD8-95CD-14C3E510F459}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{216EF55A-3D40-4FD8-95CD-14C3E510F459}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{216EF55A-3D40-4FD8-95CD-14C3E510F459}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87550599-042E-4BC0-A2C5-BF6A716E81A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87550599-042E-4BC0-A2C5-BF6A716E81A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87550599-042E-4BC0-A2C5-BF6A716E81A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87550599-042E-4BC0-A2C5-BF6A716E81A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{664C1369-D2E4-4008-AB3C-A1AA23FCCC69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{664C1369-D2E4-4008-AB3C-A1AA23FCCC69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{664C1369-D2E4-4008-AB3C-A1AA23FCCC69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{664C1369-D2E4-4008-AB3C-A1AA23FCCC69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2191D0B2-EE12-48BB-8977-70BAEC8C9D2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2191D0B2-EE12-48BB-8977-70BAEC8C9D2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2191D0B2-EE12-48BB-8977-70BAEC8C9D2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2191D0B2-EE12-48BB-8977-70BAEC8C9D2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C7C5C0F-B91E-4BA3-9126-0DABB33C30B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C7C5C0F-B91E-4BA3-9126-0DABB33C30B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C7C5C0F-B91E-4BA3-9126-0DABB33C30B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C7C5C0F-B91E-4BA3-9126-0DABB33C30B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90DB2DC5-E171-494E-9FC6-229DD6EC7548}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90DB2DC5-E171-494E-9FC6-229DD6EC7548}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90DB2DC5-E171-494E-9FC6-229DD6EC7548}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90DB2DC5-E171-494E-9FC6-229DD6EC7548}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BF19B809-AF26-4AB4-99FD-55B6660C3872} = {1631223A-2E69-4D27-82C2-58651840B7EC}
+		{3B6EEBEF-C0AF-4872-BDAC-39163EFE21FA} = {2D4A6734-55E9-46FD-BC86-1A6B9652198C}
+		{EF824647-F962-4FD8-8A38-056A49F1681C} = {CFD3F850-D3B6-4C8A-817C-D7FDBF68AC4D}
+		{216EF55A-3D40-4FD8-95CD-14C3E510F459} = {F8B9242E-78C6-4237-AA1C-5100A0276BF6}
+		{87550599-042E-4BC0-A2C5-BF6A716E81A5} = {73346350-30C0-4828-8EF9-4A2D5DF2A8C6}
+		{664C1369-D2E4-4008-AB3C-A1AA23FCCC69} = {1631223A-2E69-4D27-82C2-58651840B7EC}
+		{2191D0B2-EE12-48BB-8977-70BAEC8C9D2D} = {2D4A6734-55E9-46FD-BC86-1A6B9652198C}
+		{2C7C5C0F-B91E-4BA3-9126-0DABB33C30B6} = {2D4A6734-55E9-46FD-BC86-1A6B9652198C}
+		{90DB2DC5-E171-494E-9FC6-229DD6EC7548} = {2D4A6734-55E9-46FD-BC86-1A6B9652198C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {18F2618F-D5A0-4779-AB65-8871DF992684}
+	EndGlobalSection
+EndGlobal
