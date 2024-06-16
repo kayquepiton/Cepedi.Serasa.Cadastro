@@ -1,6 +1,5 @@
 using Serilog;
 using Cepedi.Serasa.Cadastro.IoC;
-using Cepedi.Serasa.Cadastro.Api;
 using Cepedi.Serasa.Cadastro.Api.Extension;
 using Cepedi.Serasa.Cadastro.Domain.Configuration;
 using Cepedi.Serasa.Cadastro.Domain.Services;
@@ -8,6 +7,7 @@ using Cepedi.Serasa.Cadastro.Domain.Services.Implementation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +16,33 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "CEPEDI.SERASA.CADASTRO API", Version = "v1" });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Authorization header using the Bearer scheme."
+    });;
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                          new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new string[] {}
+                    }
+                });
+});
 
 // Bind JWT settings from configuration
 var jwtConfig = builder.Configuration.GetSection("Jwt").Get<TokenConfiguration>();

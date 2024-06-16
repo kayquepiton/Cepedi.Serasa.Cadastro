@@ -52,7 +52,7 @@ namespace Cepedi.Serasa.Cadastro.Data.Repositories
         public async Task<QueryEntity> DeleteQueryAsync(int id)
         {
             var query = await GetQueryAsync(id);
-            if (query == null)
+            if (query is null)
             {
                 return null;
             }

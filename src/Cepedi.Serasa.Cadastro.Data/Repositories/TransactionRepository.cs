@@ -40,7 +40,7 @@ namespace Cepedi.Serasa.Cadastro.Data.Repositories
         public async Task<TransactionEntity> DeleteTransactionAsync(int id)
         {
             var transaction = await GetTransactionAsync(id);
-            if (transaction == null)
+            if (transaction is null)
                 return null;
 
             _context.Transaction.Remove(transaction);

@@ -23,7 +23,7 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.TransactionType
         {
             var transactionTypeEntity = await _transactionTypeRepository.GetTransactionTypeAsync(request.Id);
 
-            if (transactionTypeEntity == null)
+            if (transactionTypeEntity is null)
             {
                 return Result.Error<UpdateTransactionTypeResponse>(
                     new Shared.Exceptions.AppException(RegistrationErrors.InvalidTransactionTypeId));

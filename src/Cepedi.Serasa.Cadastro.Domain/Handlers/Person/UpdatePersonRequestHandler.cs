@@ -24,7 +24,7 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Person
         {
             var person = await _personRepository.GetPersonAsync(request.Id);
 
-            if (person == null)
+            if (person is null)
             {
                 return Result.Error<UpdatePersonResponse>(new Shared.Exceptions.AppException(RegistrationErrors.InvalidPersonId));
             }

@@ -27,7 +27,7 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Score
         {
             var scoreEntity = await _scoreRepository.GetScoreAsync(request.Id);
 
-            if (scoreEntity == null)
+            if (scoreEntity is null)
             {
                 return Result.Error<UpdateScoreResponse>(new Shared.Exceptions.AppException(RegistrationErrors.InvalidScoreId));
             }

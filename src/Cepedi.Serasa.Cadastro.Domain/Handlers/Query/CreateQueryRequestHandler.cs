@@ -23,7 +23,7 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Query
         public async Task<Result<CreateQueryResponse>> Handle(CreateQueryRequest request, CancellationToken cancellationToken)
         {
             var person = await _queryRepository.GetPersonForQueryAsync(request.IdPerson);
-            if (person == null)
+            if (person is null)
             {
                 return Result.Error<CreateQueryResponse>(new Shared.Exceptions.AppException(RegistrationErrors.InvalidPersonId));
             }

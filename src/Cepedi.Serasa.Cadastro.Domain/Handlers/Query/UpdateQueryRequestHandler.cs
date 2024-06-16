@@ -23,7 +23,7 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Query
         {
             var query = await _queryRepository.GetQueryAsync(request.Id);
 
-            if (query == null)
+            if (query is null)
             {
                 return Result.Error<UpdateQueryResponse>(new Shared.Exceptions.AppException(RegistrationErrors.InvalidQueryId));
             }

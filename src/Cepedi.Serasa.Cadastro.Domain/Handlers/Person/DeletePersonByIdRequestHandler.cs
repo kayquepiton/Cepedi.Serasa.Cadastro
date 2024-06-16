@@ -23,7 +23,7 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Person
         public async Task<Result<DeletePersonByIdResponse>> Handle(DeletePersonByIdRequest request, CancellationToken cancellationToken)
         {
             var personEntity = await _personRepository.GetPersonAsync(request.Id);
-            if (personEntity == null)
+            if (personEntity is null)
             {
                 return Result.Error<DeletePersonByIdResponse>(new Shared.Exceptions.AppException(RegistrationErrors.InvalidPersonId));
             }

@@ -34,6 +34,7 @@ public class AuthenticateUserRequestHandler : IRequestHandler<AuthenticateUserRe
             return Result.Error<AuthenticateUserResponse>(new Cepedi.Serasa.Cadastro.Shared.Exceptions.AppException(RegistrationErrors.InvalidAuthentication));
         
         var EncryptedPassword = EncryptPassword(request.Password);
+        
         if (!EncryptedPassword.Equals(user.Password))
             return Result.Error<AuthenticateUserResponse>(new Cepedi.Serasa.Cadastro.Shared.Exceptions.AppException(RegistrationErrors.InvalidAuthentication));
 

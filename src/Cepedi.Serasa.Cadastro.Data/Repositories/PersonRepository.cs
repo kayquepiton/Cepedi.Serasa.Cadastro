@@ -33,7 +33,7 @@ namespace Cepedi.Serasa.Cadastro.Data.Repositories
         public async Task<PersonEntity?> DeletePersonAsync(int id)
         {
             var person = await GetPersonAsync(id);
-            if (person == null) return null;
+            if (person is null) return null;
 
             _context.Person.Remove(person);
             await _context.SaveChangesAsync();

@@ -23,7 +23,7 @@ namespace Cepedi.Serasa.Cadastro.Domain.User.Handlers
         {
             var userEntity = await _userRepository.GetUserAsync(request.Id);
 
-            if (userEntity == null)
+            if (userEntity is null)
             {
                 return Result.Error<UpdateUserResponse>(new Shared.Exceptions.AppException(RegistrationErrors.InvalidUserId));
             }

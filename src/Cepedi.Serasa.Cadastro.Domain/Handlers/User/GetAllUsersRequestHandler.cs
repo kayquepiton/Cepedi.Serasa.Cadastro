@@ -23,7 +23,7 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers
         {
             var users = await _userRepository.GetAllUsersAsync();
 
-            if (users == null)
+            if (users is null)
             {
                 return Result.Error<List<GetAllUsersResponse>>(
                     new Shared.Exceptions.AppException(RegistrationErrors.EmptyUserList));

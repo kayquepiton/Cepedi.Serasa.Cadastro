@@ -48,7 +48,7 @@ namespace Cepedi.Serasa.Cadastro.Data.Repositories
         public async Task<ScoreEntity> DeleteScoreAsync(int id)
         {
             var scoreEntity = await GetScoreAsync(id);
-            if (scoreEntity == null)
+            if (scoreEntity is null)
             {
                 return null;
             }

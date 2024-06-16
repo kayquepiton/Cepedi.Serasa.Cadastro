@@ -23,7 +23,7 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Transaction
         {
             var transaction = await _transactionRepository.GetTransactionAsync(request.Id);
 
-            if (transaction == null)
+            if (transaction is null)
             {
                 return Result.Error<DeleteTransactionResponse>(
                     new Shared.Exceptions.AppException(RegistrationErrors.InvalidTransactionId));

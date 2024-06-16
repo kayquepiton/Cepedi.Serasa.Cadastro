@@ -27,7 +27,7 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Score
         {
             var scores = await _scoreRepository.GetAllScoresAsync();
 
-            if (scores == null)
+            if (scores is null)
             {
                 return Result.Error<List<GetAllScoresResponse>>(new Shared.Exceptions.AppException(RegistrationErrors.EmptyScoresList));
             }

@@ -27,7 +27,7 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Auth
         {
             var user = await _userRepository.GetUserByRefreshTokenAsync(request.RefreshToken);
 
-            if (user == null)
+            if (user is null)
                 return Result.Error(new Shared.Exceptions.AppException(RegistrationErrors.InvalidAuthentication));
             
             user.RefreshToken = null;

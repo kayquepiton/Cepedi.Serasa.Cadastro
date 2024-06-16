@@ -27,14 +27,14 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Transaction
         public async Task<Result<CreateTransactionResponse>> Handle(CreateTransactionRequest request, CancellationToken cancellationToken)
         {
             var person = await _personRepository.GetPersonAsync(request.IdPerson);
-            if (person == null)
+            if (person is null)
             {
                 return Result.Error<CreateTransactionResponse>(
                     new Shared.Exceptions.AppException(RegistrationErrors.InvalidPersonId));
             }
 
             var transactionType = await _transactionTypeRepository.GetTransactionTypeAsync(request.IdTransactionType);
-            if (transactionType == null)
+            if (transactionType is null)
             {
                 return Result.Error<CreateTransactionResponse>(
                     new Shared.Exceptions.AppException(RegistrationErrors.InvalidTransactionTypeId));

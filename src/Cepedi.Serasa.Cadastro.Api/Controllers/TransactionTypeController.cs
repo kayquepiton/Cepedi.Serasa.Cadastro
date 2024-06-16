@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace Cepedi.Serasa.Cadastro.Api.Controllers;
 
 [Authorize]
-[Authorize(AuthenticationSchemes = "Bearer")]
 [ApiController]
 [Route("api/[controller]")]
+
 public class TransactionTypeController : BaseController
 {
     private readonly ILogger<TransactionTypeController> _logger;

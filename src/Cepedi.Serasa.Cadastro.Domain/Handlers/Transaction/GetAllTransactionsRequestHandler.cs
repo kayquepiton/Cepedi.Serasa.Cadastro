@@ -23,7 +23,7 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Transaction
         {
             var transactions = await _transactionRepository.GetAllTransactionsAsync();
 
-            if (transactions == null)
+            if (transactions is null)
             {
                 return Result.Error<List<GetAllTransactionsResponse>>(
                     new Shared.Exceptions.AppException(RegistrationErrors.EmptyTransactionsList));

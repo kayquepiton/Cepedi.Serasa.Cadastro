@@ -25,7 +25,7 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Score
         public async Task<Result<CreateScoreResponse>> Handle(CreateScoreRequest request, CancellationToken cancellationToken)
         {
             var person = await _personRepository.GetPersonAsync(request.IdPerson);
-            if (person == null)
+            if (person is null)
             {
                 return Result.Error<CreateScoreResponse>(
                     new Shared.Exceptions.AppException(RegistrationErrors.InvalidPersonId));
