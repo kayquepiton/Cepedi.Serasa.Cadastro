@@ -1,13 +1,16 @@
-﻿using Cepedi.Serasa.Cadastro.Domain.Entities;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Cepedi.Serasa.Cadastro.Domain.Entities;
 
-namespace Cepedi.Serasa.Cadastro.Domain.Repository;
-
-public interface IScoreRepository
+namespace Cepedi.Serasa.Cadastro.Domain.Repository
 {
-    Task<ScoreEntity> CriarScoreAsync(ScoreEntity score);
-    Task<ScoreEntity> ObterScoreAsync(int id);
-    Task<List<ScoreEntity>> ObterTodosScoresAsync();
-    Task<ScoreEntity> AtualizarScoreAsync(ScoreEntity score);
-    Task<ScoreEntity> ObterPessoaScoreAsync(int id);
-    Task<ScoreEntity> DeletarScoreAsync(int id);
+    public interface IScoreRepository
+    {
+        Task<ScoreEntity> CreateScoreAsync(ScoreEntity score);
+        Task<ScoreEntity> GetScoreAsync(int id);
+        Task<List<ScoreEntity>> GetAllScoresAsync();
+        Task<ScoreEntity> UpdateScoreAsync(ScoreEntity score);
+        Task<ScoreEntity> GetPersonScoreAsync(int id);
+        Task<ScoreEntity> DeleteScoreAsync(int id);
+    }
 }

@@ -16,8 +16,8 @@ public class LoginRepositoryTests
 
         using (var context = new ApplicationDbContext(options))
         {
-            context.Usuario.Add(new UsuarioEntity { Id = 1, Nome = "Login1", Celular = "7199999999", Login = "teste", Cpf = "1235567789" });
-            context.Usuario.Add(new UsuarioEntity { Id = 2, Nome = "Login2", Celular = "7199999999", Login = "teste", Cpf = "1235567789" });
+            context.User.Add(new UserEntity { Id = 1, Name = "Login1", Celular = "7199999999", Login = "teste", Cpf = "1235567789" });
+            context.User.Add(new UserEntity { Id = 2, Name = "Login2", Celular = "7199999999", Login = "teste", Cpf = "1235567789" });
             context.SaveChanges();
         }
 
@@ -29,8 +29,8 @@ public class LoginRepositoryTests
 
             // Assert
             Assert.Equal(2, Logins.Count);
-            Assert.Equal("Login1", Logins[0].Nome);
-            Assert.Equal("Login2", Logins[1].Nome);
+            Assert.Equal("Login1", Logins[0].Name);
+            Assert.Equal("Login2", Logins[1].Name);
         }
     }
 

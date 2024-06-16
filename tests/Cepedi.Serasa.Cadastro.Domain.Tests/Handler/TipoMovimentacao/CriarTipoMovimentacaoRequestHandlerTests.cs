@@ -27,20 +27,20 @@ public class CriarTipoMovimentacaoRequestHandlerTests
         // Arrange
         var request = new CriarTipoMovimentacaoRequest
         {
-            NomeTipo = "Venda"
+            TypeName = "Venda"
         };
 
-        var tipoMovimentacao = new TipoMovimentacaoEntity
+        var tipoMovimentacao = new TransactionTypeEntity
         {
             Id = 1,
-            NomeTipo = request.NomeTipo
+            TypeName = request.TypeName
         };
 
         _tipoMovimentacaoRepository
-            .When(repo => repo.CriarTipoMovimentacaoAsync(Arg.Any<TipoMovimentacaoEntity>()))
+            .When(repo => repo.CriarTipoMovimentacaoAsync(Arg.Any<TransactionTypeEntity>()))
             .Do(callInfo => 
             {
-                var tipoMov = callInfo.Arg<TipoMovimentacaoEntity>();
+                var tipoMov = callInfo.Arg<TransactionTypeEntity>();
                 tipoMov.Id = tipoMovimentacao.Id;
             });
 
@@ -53,10 +53,10 @@ public class CriarTipoMovimentacaoRequestHandlerTests
 
         result.Value.Should().NotBeNull();
         result.Value.Id.Should().Be(tipoMovimentacao.Id);
-        result.Value.NomeTipo.Should().Be(request.NomeTipo);
+        result.Value.TypeName.Should().Be(request.TypeName);
 
-        await _tipoMovimentacaoRepository.Received(1).CriarTipoMovimentacaoAsync(Arg.Is<TipoMovimentacaoEntity>(
-            tm => tm.NomeTipo == request.NomeTipo
+        await _tipoMovimentacaoRepository.Received(1).CriarTipoMovimentacaoAsync(Arg.Is<TransactionTypeEntity>(
+            tm => tm.TypeName == request.TypeName
         ));
     }
 }

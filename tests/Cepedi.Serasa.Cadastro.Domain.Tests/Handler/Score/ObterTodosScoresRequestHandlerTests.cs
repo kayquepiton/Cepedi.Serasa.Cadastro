@@ -25,8 +25,8 @@ public class ObterTodosScoresRequestHandlerTests
         // Arrange
         var scores = new List<ScoreEntity>
         {
-            new ScoreEntity { Id = 1, IdPessoa = 1, Score = 750 },
-            new ScoreEntity { Id = 2, IdPessoa = 2, Score = 800 }
+            new ScoreEntity { Id = 1, IdPerson = 1, Score = 750 },
+            new ScoreEntity { Id = 2, IdPerson = 2, Score = 800 }
         };
 
         _scoreRepository.ObterTodosScoresAsync().Returns(Task.FromResult(scores));
@@ -47,7 +47,7 @@ public class ObterTodosScoresRequestHandlerTests
         for (int i = 0; i < scores.Count; i++)
         {
             result.Value[i].Id.Should().Be(scores[i].Id);
-            result.Value[i].IdPessoa.Should().Be(scores[i].IdPessoa);
+            result.Value[i].IdPerson.Should().Be(scores[i].IdPerson);
             result.Value[i].Score.Should().Be(scores[i].Score);
         }
 

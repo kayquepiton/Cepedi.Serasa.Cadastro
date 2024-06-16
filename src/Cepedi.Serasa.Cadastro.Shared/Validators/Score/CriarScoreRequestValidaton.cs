@@ -1,19 +1,20 @@
 ﻿using Cepedi.Serasa.Cadastro.Shared.Requests.Score;
 using FluentValidation;
 
-namespace Cepedi.Serasa.Cadastro.Shared.Validators.Score;
-public class CriarScoreRequestValidaton : AbstractValidator<CriarScoreRequest>
+namespace Cepedi.Serasa.Cadastro.Shared.Validators.Score
 {
-    public CriarScoreRequestValidaton()
+    public class CreateScoreRequestValidation : AbstractValidator<CreateScoreRequest>
     {
-        RuleFor(score => score.IdPessoa)
-            .NotNull().WithMessage("O ID da pessoa deve ser informado")
-            .GreaterThan(0).WithMessage("ID da pessoa inválido");
+        public CreateScoreRequestValidation()
+        {
+            RuleFor(score => score.IdPerson)
+                .NotNull().WithMessage("Person ID must be provided")
+                .GreaterThan(0).WithMessage("Invalid Person ID");
 
-        RuleFor(score => score.Score)
-            .NotNull().WithMessage("O Score deve ser informado")
-            .GreaterThanOrEqualTo(0).WithMessage("O valor deve ser maior ou igual a zero")
-            .LessThanOrEqualTo(1000)
-            .WithMessage("O valor deve ser menor ou igual a mil");
+            RuleFor(score => score.Score)
+                .NotNull().WithMessage("Score must be provided")
+                .GreaterThanOrEqualTo(0).WithMessage("Value must be greater than or equal to zero")
+                .LessThanOrEqualTo(1000).WithMessage("Value must be less than or equal to one thousand");
+        }
     }
 }

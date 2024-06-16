@@ -26,13 +26,13 @@ public class DeletarMovimentacaoRequestHandlerTests
         // Arrange
         var idMovimentacao = 1;
 
-        var movimentacaoExistente = new MovimentacaoEntity
+        var movimentacaoExistente = new TransactionEntity
         {
             Id = idMovimentacao,
             IdTipoMovimentacao = 1,
-            IdPessoa = 1,
+            IdPerson = 1,
             DataHora = DateTime.UtcNow.AddDays(-1),
-            NomeEstabelecimento = "Exemplo Loja",
+            NameEstabelecimento = "Exemplo Loja",
             Valor = 100.0m
         };
 
@@ -58,7 +58,7 @@ public class DeletarMovimentacaoRequestHandlerTests
         var idMovimentacaoInexistente = 99;
 
         _movimentacaoRepository.ObterMovimentacaoAsync(idMovimentacaoInexistente)
-                                .Returns(Task.FromResult<MovimentacaoEntity>(null));
+                                .Returns(Task.FromResult<TransactionEntity>(null));
 
         // Act
         var result = await _sut.Handle(new DeletarMovimentacaoRequest { Id = idMovimentacaoInexistente }, CancellationToken.None);

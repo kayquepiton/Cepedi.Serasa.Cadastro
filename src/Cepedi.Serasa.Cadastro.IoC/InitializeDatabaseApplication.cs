@@ -1,5 +1,4 @@
 ﻿using Cepedi.Serasa.Cadastro.Data;
-using Cepedi.Serasa.Cadastro.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 

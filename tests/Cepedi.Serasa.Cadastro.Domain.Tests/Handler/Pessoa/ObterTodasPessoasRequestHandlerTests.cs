@@ -1,41 +1,41 @@
-﻿using Cepedi.Serasa.Cadastro.Shared.Requests.Pessoa;
-using Cepedi.Serasa.Cadastro.Shared.Responses.Pessoa;
+﻿using Cepedi.Serasa.Cadastro.Shared.Requests.Person;
+using Cepedi.Serasa.Cadastro.Shared.Responses.Person;
 using Cepedi.Serasa.Cadastro.Domain.Entities;
-using Cepedi.Serasa.Cadastro.Domain.Handlers.Pessoa;
+using Cepedi.Serasa.Cadastro.Domain.Handlers.Person;
 using Cepedi.Serasa.Cadastro.Domain.Repository;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using OperationResult;
 
-namespace Cepedi.Serasa.Cadastro.Domain.Tests.Handler.Pessoa;
-public class ObterTodasPessoasRequestHandlerTests
+namespace Cepedi.Serasa.Cadastro.Domain.Tests.Handler.Person;
+public class ObterTodasPersonsRequestHandlerTests
 {
-    private readonly IPessoaRepository _pessoasRepository;
-    private readonly ILogger<ObterTodasPessoasRequestHandler> _logger;
-    private readonly ObterTodasPessoasRequestHandler _sut;
+    private readonly IPersonRepository _PersonsRepository;
+    private readonly ILogger<ObterTodasPersonsRequestHandler> _logger;
+    private readonly ObterTodasPersonsRequestHandler _sut;
 
-    public ObterTodasPessoasRequestHandlerTests()
+    public ObterTodasPersonsRequestHandlerTests()
     {
-        _pessoasRepository = Substitute.For<IPessoaRepository>();
-        _logger = Substitute.For<ILogger<ObterTodasPessoasRequestHandler>>();
-        _sut = new ObterTodasPessoasRequestHandler(_pessoasRepository, _logger);
+        _PersonsRepository = Substitute.For<IPersonRepository>();
+        _logger = Substitute.For<ILogger<ObterTodasPersonsRequestHandler>>();
+        _sut = new ObterTodasPersonsRequestHandler(_PersonsRepository, _logger);
     }
 
     [Fact]
-    public async Task QuandoObterTodasPessoasDeveRetornarListaPessoas()
+    public async Task QuandoObterTodasPersonsDeveRetornarListaPersons()
     {
         //Arrange
-        var pessoasNoBanco = new List<PessoaEntity>
+        var PersonsNoBanco = new List<PersonEntity>
         {
-            new PessoaEntity {Id = 1, Nome = "Carlos Matos", CPF = "86088154004"},
-            new PessoaEntity {Id = 2, Nome = "Joana Andrade", CPF = "45072726029"},
-            new PessoaEntity {Id = 3, Nome = "Felipe Meira", CPF = "54284570072"}
+            new PersonEntity {Id = 1, Name = "Carlos Matos", CPF = "86088154004"},
+            new PersonEntity {Id = 2, Name = "Joana Andrade", CPF = "45072726029"},
+            new PersonEntity {Id = 3, Name = "Felipe Meira", CPF = "54284570072"}
         };
 
-        _pessoasRepository.ObterPessoasAsync().Returns(Task.FromResult(pessoasNoBanco));
+        _PersonsRepository.ObterPersonsAsync().Returns(Task.FromResult(PersonsNoBanco));
 
-        var request = new ObterTodasPessoasRequest();
+        var request = new ObterTodasPersonsRequest();
 
         //Act
         var result = await _sut.Handle(request, CancellationToken.None);
@@ -43,28 +43,28 @@ public class ObterTodasPessoasRequestHandlerTests
         //Assert
         result.Should().NotBeNull();
         result.Value.Should().NotBeNull();
-        result.Value.Should().HaveCount(pessoasNoBanco.Count);
+        result.Value.Should().HaveCount(PersonsNoBanco.Count);
 
         var resultList = result.Value.ToList();
         for(int i = 0; i < resultList.Count(); i++)
         {
-            resultList[i].Id.Should().Be(pessoasNoBanco[i].Id);
-            resultList[i].Nome.Should().Be(pessoasNoBanco[i].Nome);
-            resultList[i].CPF.Should().Be(pessoasNoBanco[i].CPF);
+            resultList[i].Id.Should().Be(PersonsNoBanco[i].Id);
+            resultList[i].Name.Should().Be(PersonsNoBanco[i].Name);
+            resultList[i].CPF.Should().Be(PersonsNoBanco[i].CPF);
         }
 
-        await _pessoasRepository.Received(1).ObterPessoasAsync();
+        await _PersonsRepository.Received(1).ObterPersonsAsync();
     }
 
     [Fact]
-    public async Task QuandoNaoExistirPessoasCadastradasDeveRetornarListaVazia()
+    public async Task QuandoNaoExistirPersonsCadastradasDeveRetornarListaVazia()
     {
         //Arrange
-        var pessoasNoBanco = new List<PessoaEntity>();
+        var PersonsNoBanco = new List<PersonEntity>();
 
-        _pessoasRepository.ObterPessoasAsync().Returns(Task.FromResult(pessoasNoBanco));
+        _PersonsRepository.ObterPersonsAsync().Returns(Task.FromResult(PersonsNoBanco));
 
-        var request = new ObterTodasPessoasRequest();
+        var request = new ObterTodasPersonsRequest();
 
         //Act
         var result = await _sut.Handle(request, CancellationToken.None);
@@ -73,6 +73,6 @@ public class ObterTodasPessoasRequestHandlerTests
         result.Should().NotBeNull();
         result.IsSuccess.Should().BeFalse();
 
-        await _pessoasRepository.Received(1).ObterPessoasAsync();
+        await _PersonsRepository.Received(1).ObterPersonsAsync();
     }
 }

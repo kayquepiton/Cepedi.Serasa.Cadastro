@@ -25,7 +25,7 @@ public class DapperVsEfCoreBenchmark
             connection.Open();
             for (int i = 0; i < iterations; i++)
             {
-                var result = await connection.QueryAsync<UsuarioEntity>("SELECT * FROM USUARIO WITH(NOLOCK) WHERE Id = 1");
+                var result = await connection.QueryAsync<UserEntity>("SELECT * FROM USUARIO WITH(NOLOCK) WHERE Id = 1");
             }
         }
     }
@@ -37,7 +37,7 @@ public class DapperVsEfCoreBenchmark
         {
             for (int i = 0; i < iterations; i++)
             {
-                var result = await dbContext.Usuario.Where(x => x.Id == 1).FirstOrDefaultAsync();
+                var result = await dbContext.User.Where(x => x.Id == 1).FirstOrDefaultAsync();
             }
         }
     }

@@ -1,4 +1,7 @@
-﻿using Cepedi.Serasa.Cadastro.Domain.Entities;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Cepedi.Serasa.Cadastro.Domain.Entities;
 using Cepedi.Serasa.Cadastro.Domain.Repository;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,7 +9,6 @@ namespace Cepedi.Serasa.Cadastro.Data.Repositories
 {
     public class ScoreRepository : IScoreRepository
     {
-
         private readonly ApplicationDbContext _context;
 
         public ScoreRepository(ApplicationDbContext context)
@@ -14,59 +16,44 @@ namespace Cepedi.Serasa.Cadastro.Data.Repositories
             _context = context;
         }
 
-        public async Task<ScoreEntity> AtualizarScoreAsync(ScoreEntity score)
+        public async Task<ScoreEntity> UpdateScoreAsync(ScoreEntity score)
         {
             _context.Score.Update(score);
-
             await _context.SaveChangesAsync();
-
             return score;
         }
 
-        public async Task<ScoreEntity> CriarScoreAsync(ScoreEntity score)
+        public async Task<ScoreEntity> CreateScoreAsync(ScoreEntity score)
         {
             _context.Score.Add(score);
-
             await _context.SaveChangesAsync();
-
             return score;
         }
 
-        public async Task<List<ScoreEntity>> GetScoresAsync()
+        public async Task<List<ScoreEntity>> GetAllScoresAsync()
         {
             return await _context.Score.ToListAsync();
         }
 
-        public async Task<ScoreEntity> ObterScoreAsync(int id)
+        public async Task<ScoreEntity> GetScoreAsync(int id)
         {
-            return await
-                _context.Score.Where(e => e.Id == id).FirstOrDefaultAsync();
+            return await _context.Score.FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public async Task<List<ScoreEntity>> ObterTodosScoresAsync()
+        public async Task<ScoreEntity> GetPersonScoreAsync(int id)
         {
-            return await _context.Set<ScoreEntity>().ToListAsync();
+            return await _context.Score.FirstOrDefaultAsync(e => e.IdPerson == id);
         }
 
-        public async Task<ScoreEntity> ObterPessoaScoreAsync(int id)
+        public async Task<ScoreEntity> DeleteScoreAsync(int id)
         {
-            return await
-                _context.Score.Where(e => e.IdPessoa == id).FirstOrDefaultAsync();
-        }
-
-        public async Task<ScoreEntity> DeletarScoreAsync(int id)
-        {
-            var scoreEntity = await ObterScoreAsync(id);
-
+            var scoreEntity = await GetScoreAsync(id);
             if (scoreEntity == null)
             {
                 return null;
             }
-
             _context.Score.Remove(scoreEntity);
-
             await _context.SaveChangesAsync();
-
             return scoreEntity;
         }
     }

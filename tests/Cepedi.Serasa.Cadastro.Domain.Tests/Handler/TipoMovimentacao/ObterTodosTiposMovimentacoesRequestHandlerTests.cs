@@ -23,10 +23,10 @@ public class ObterTodosTiposMovimentacaoRequestHandlerTests
     public async Task Handle_QuandoObterTodosTiposMovimentacao_DeveRetornarListaTiposMovimentacao()
     {
         // Arrange
-        var tiposMovimentacao = new List<TipoMovimentacaoEntity>
+        var tiposMovimentacao = new List<TransactionTypeEntity>
         {
-            new TipoMovimentacaoEntity { Id = 1, NomeTipo = "Compra" },
-            new TipoMovimentacaoEntity { Id = 2, NomeTipo = "Venda" }
+            new TransactionTypeEntity { Id = 1, TypeName = "Compra" },
+            new TransactionTypeEntity { Id = 2, TypeName = "Venda" }
         };
 
         _tipoMovimentacaoRepository.ObterTodosTiposMovimentacaoAsync()
@@ -48,7 +48,7 @@ public class ObterTodosTiposMovimentacaoRequestHandlerTests
         for (int i = 0; i < tiposMovimentacao.Count; i++)
         {
             result.Value[i].Id.Should().Be(tiposMovimentacao[i].Id);
-            result.Value[i].NomeTipo.Should().Be(tiposMovimentacao[i].NomeTipo);
+            result.Value[i].TypeName.Should().Be(tiposMovimentacao[i].TypeName);
         }
 
         // Verifica se o método no repositório foi chamado corretamente
@@ -59,7 +59,7 @@ public class ObterTodosTiposMovimentacaoRequestHandlerTests
     public async Task Handle_QuandoNaoExistemTiposMovimentacao_DeveRetornarListaVazia()
     {
         // Arrange
-        var tiposMovimentacaoVazias = new List<TipoMovimentacaoEntity>();
+        var tiposMovimentacaoVazias = new List<TransactionTypeEntity>();
 
         _tipoMovimentacaoRepository.ObterTodosTiposMovimentacaoAsync()
                                     .Returns(Task.FromResult(tiposMovimentacaoVazias));

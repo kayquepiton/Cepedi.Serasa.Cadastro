@@ -31,24 +31,24 @@ public class AtualizarMovimentacaoRequestHandlerTests
             Id = 1,
             IdTipoMovimentacao = 2,
             DataHora = DateTime.Parse("2024-05-17T16:58:27.845Z"),
-            NomeEstabelecimento = "Nova Loja",
+            NameEstabelecimento = "Nova Loja",
             Valor = 200.0m
         };
 
-        var movimentacaoExistente = new MovimentacaoEntity
+        var movimentacaoExistente = new TransactionEntity
         {
             Id = request.Id,
             IdTipoMovimentacao = 1,
-            IdPessoa = 1,
+            IdPerson = 1,
             DataHora = DateTime.UtcNow.AddDays(-1),
-            NomeEstabelecimento = "Exemplo Loja",
+            NameEstabelecimento = "Exemplo Loja",
             Valor = 100.0m
         };
 
-        var tipoMovimentacao = new TipoMovimentacaoEntity
+        var tipoMovimentacao = new TransactionTypeEntity
         {
             Id = request.IdTipoMovimentacao,
-            NomeTipo = "Venda"
+            TypeName = "Venda"
         };
 
         _movimentacaoRepository.ObterMovimentacaoAsync(request.Id).Returns(Task.FromResult(movimentacaoExistente));
@@ -64,17 +64,17 @@ public class AtualizarMovimentacaoRequestHandlerTests
         result.Value.Should().NotBeNull();
         result.Value.Id.Should().Be(movimentacaoExistente.Id);
         result.Value.IdTipoMovimentacao.Should().Be(movimentacaoExistente.IdTipoMovimentacao);
-        result.Value.IdPessoa.Should().Be(movimentacaoExistente.IdPessoa);
-        result.Value.NomeEstabelecimento.Should().Be(movimentacaoExistente.NomeEstabelecimento);
+        result.Value.IdPerson.Should().Be(movimentacaoExistente.IdPerson);
+        result.Value.NameEstabelecimento.Should().Be(movimentacaoExistente.NameEstabelecimento);
         result.Value.Valor.Should().Be(movimentacaoExistente.Valor);
 
         await _movimentacaoRepository.Received(1).ObterMovimentacaoAsync(request.Id);
         await _tipoMovimentacaoRepository.Received(1).ObterTipoMovimentacaoAsync(request.IdTipoMovimentacao);
-        await _movimentacaoRepository.Received(1).AtualizarMovimentacaoAsync(Arg.Is<MovimentacaoEntity>(
+        await _movimentacaoRepository.Received(1).AtualizarMovimentacaoAsync(Arg.Is<TransactionEntity>(
             m => m.Id == request.Id &&
                     m.IdTipoMovimentacao == request.IdTipoMovimentacao &&
                     m.DataHora == request.DataHora &&
-                    m.NomeEstabelecimento == request.NomeEstabelecimento &&
+                    m.NameEstabelecimento == request.NameEstabelecimento &&
                     m.Valor == request.Valor
         ));
     }
@@ -88,11 +88,11 @@ public class AtualizarMovimentacaoRequestHandlerTests
             Id = 1,
             IdTipoMovimentacao = 2,
             DataHora = DateTime.Parse("2024-05-17T16:58:27.845Z"),
-            NomeEstabelecimento = "Nova Loja",
+            NameEstabelecimento = "Nova Loja",
             Valor = 200.0m
         };
 
-        _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(request.IdTipoMovimentacao).Returns(Task.FromResult<TipoMovimentacaoEntity>(null));
+        _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(request.IdTipoMovimentacao).Returns(Task.FromResult<TransactionTypeEntity>(null));
 
         // Act
         var result = await _sut.Handle(request, CancellationToken.None);
@@ -101,8 +101,8 @@ public class AtualizarMovimentacaoRequestHandlerTests
         result.Should().BeOfType<Result<AtualizarMovimentacaoResponse>>()
                 .Which.IsSuccess.Should().BeFalse();
 
-        result.Exception.Should().BeOfType<Shared.Exececoes.ExcecaoAplicacao>()
-                .Which.ResultadoErro.Should().Be(CadastroErros.IdTipoMovimentacaoInvalido);
+        result.Exception.Should().BeOfType<Shared.Exceptions.AppException>()
+                .Which.ErrorResult.Should().Be(RegistrationErrors.IdTipoMovimentacaoInvalido);
     }
 
     [Fact]
@@ -114,18 +114,18 @@ public class AtualizarMovimentacaoRequestHandlerTests
             Id = 1,
             IdTipoMovimentacao = 2,
             DataHora = DateTime.Parse("2024-05-17T16:58:27.845Z"),
-            NomeEstabelecimento = "Nova Loja",
+            NameEstabelecimento = "Nova Loja",
             Valor = 200.0m
         };
 
-        var tipoMovimentacao = new TipoMovimentacaoEntity
+        var tipoMovimentacao = new TransactionTypeEntity
         {
             Id = request.IdTipoMovimentacao,
-            NomeTipo = "Venda"
+            TypeName = "Venda"
         };
 
         _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(request.IdTipoMovimentacao).Returns(Task.FromResult(tipoMovimentacao));
-        _movimentacaoRepository.ObterMovimentacaoAsync(request.Id).Returns(Task.FromResult<MovimentacaoEntity>(null));
+        _movimentacaoRepository.ObterMovimentacaoAsync(request.Id).Returns(Task.FromResult<TransactionEntity>(null));
 
         // Act
         var result = await _sut.Handle(request, CancellationToken.None);
@@ -134,8 +134,8 @@ public class AtualizarMovimentacaoRequestHandlerTests
         result.Should().BeOfType<Result<AtualizarMovimentacaoResponse>>()
                 .Which.IsSuccess.Should().BeFalse();
 
-        result.Exception.Should().BeOfType<Shared.Exececoes.ExcecaoAplicacao>()
-                .Which.ResultadoErro.Should().Be(CadastroErros.IdMovimentacaoInvalido);
+        result.Exception.Should().BeOfType<Shared.Exceptions.AppException>()
+                .Which.ErrorResult.Should().Be(RegistrationErrors.IdMovimentacaoInvalido);
     }
 }
 

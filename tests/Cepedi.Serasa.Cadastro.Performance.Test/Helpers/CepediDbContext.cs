@@ -11,7 +11,7 @@ public class CepediDbContext : DbContext
         _connectionString = connectionString;
     }
 
-    public DbSet<UsuarioEntity> Usuario { get; set; }
+    public DbSet<UserEntity> Usuario { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

@@ -4,16 +4,16 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Cepedi.Serasa.Cadastro.Data.EntityTypeConfiguration
 {
-    public class UsuarioEntityTypeConfiguration : IEntityTypeConfiguration<UsuarioEntity>
+    public class UserEntityTypeConfiguration : IEntityTypeConfiguration<UserEntity>
     {
-        public void Configure(EntityTypeBuilder<UsuarioEntity> builder)
+        public void Configure(EntityTypeBuilder<UserEntity> builder)
         {
-            builder.ToTable("Usuario");
-            builder.HasKey(c => c.Id); // Define a chave primária
+            builder.ToTable("User");
+            builder.HasKey(c => c.Id);
 
-            builder.Property(c => c.Nome).IsRequired();
+            builder.Property(c => c.Name).IsRequired();
             builder.Property(c => c.Login).IsRequired();
-            builder.Property(c => c.Senha).IsRequired();
+            builder.Property(c => c.Password).IsRequired();
         }
     }
 }

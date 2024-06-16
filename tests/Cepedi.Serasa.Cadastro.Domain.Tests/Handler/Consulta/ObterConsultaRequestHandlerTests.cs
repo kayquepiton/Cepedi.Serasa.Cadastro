@@ -26,12 +26,12 @@ public class ObterConsultaRequestHandlerTests
 
         var idConsulta = 1;
 
-        var consultaExistente = new ConsultaEntity
+        var consultaExistente = new QueryEntity
         {
             Id = idConsulta,
             Status = true,
             Data = DateTime.UtcNow.AddDays(-1),
-            IdPessoa = 1
+            IdPerson = 1
         };
 
         _consultaRepository.ObterConsultaAsync(idConsulta)
@@ -51,7 +51,7 @@ public class ObterConsultaRequestHandlerTests
         result.Value.Id.Should().Be(consultaExistente.Id);
         result.Value.Status.Should().Be(consultaExistente.Status);
         result.Value.Data.Should().Be(consultaExistente.Data);
-        result.Value.IdPessoa.Should().Be(consultaExistente.IdPessoa);
+        result.Value.IdPerson.Should().Be(consultaExistente.IdPerson);
 
         await _consultaRepository.Received(1).ObterConsultaAsync(idConsulta);
 
@@ -63,7 +63,7 @@ public class ObterConsultaRequestHandlerTests
             var idConsultaInexistente = 123;
 
             _consultaRepository.ObterConsultaAsync(idConsultaInexistente)
-                                    .Returns(Task.FromResult<ConsultaEntity>(null));
+                                    .Returns(Task.FromResult<QueryEntity>(null));
 
             var request = new ObterConsultaRequest { Id = idConsultaInexistente };
 

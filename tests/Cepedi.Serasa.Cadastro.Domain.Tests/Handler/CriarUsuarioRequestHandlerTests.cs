@@ -27,18 +27,18 @@ public class CriarUsuarioRequestHandlerTests
     public async Task CriarUsuarioAsync_QuandoCriar_DeveRetornarSucesso()
     {
         //Arrange 
-        var usuario = new CriarUsuarioRequest { Nome= "Denis" };
-        _usuarioRepository.CriarUsuarioAsync(It.IsAny<UsuarioEntity>())
-            .ReturnsForAnyArgs(new UsuarioEntity());
+        var usuario = new CriarUsuarioRequest { Name= "Denis" };
+        _usuarioRepository.CriarUsuarioAsync(It.IsAny<UserEntity>())
+            .ReturnsForAnyArgs(new UserEntity());
 
         //Act
         var result = await _sut.Handle(usuario, CancellationToken.None);
 
         //Assert 
         result.Should().BeOfType<Result<CriarUsuarioResponse>>().Which
-            .Value.nome.Should().Be(usuario.Nome);
+            .Value.Name.Should().Be(usuario.Name);
         result.Should().BeOfType<Result<CriarUsuarioResponse>>().Which
-            .Value.nome.Should().NotBeEmpty();
+            .Value.Name.Should().NotBeEmpty();
     }
 
 }*/

@@ -1,51 +1,53 @@
 ﻿using Cepedi.Serasa.Cadastro.Shared.Enums;
-using Cepedi.Serasa.Cadastro.Shared.Excecoes;
-using Cepedi.Serasa.Cadastro.Shared.Exececoes;
+using Cepedi.Serasa.Cadastro.Shared.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OperationResult;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace Cepedi.Serasa.Cadastro.Api.Controllers;
-public class BaseController : ControllerBase
+namespace Cepedi.Serasa.Cadastro.Api.Controllers
 {
-    private readonly IMediator _mediator;
-
-    public BaseController(IMediator mediator)
+    public class BaseController : ControllerBase
     {
-        _mediator = mediator;
-    }
+        private readonly IMediator _mediator;
 
-    protected async Task<ActionResult> SendCommand(IRequest<Result> request, int statusCode = 200)
-        => await _mediator.Send(request) switch
+        public BaseController(IMediator mediator)
         {
-            (true, _) => StatusCode(statusCode),
-            var (_, error) => HandleError(error!)
-        };
-
-    protected async Task<ActionResult<T>> SendCommand<T>(IRequest<Result<T>> request, int statusCode = 200)
-        => await _mediator.Send(request).ConfigureAwait(false) switch
-        {
-            (true, var result, _) => StatusCode(statusCode, result),
-            var (_, res, error) => HandleError(error!)
-        };
-
-   
-
-    protected ActionResult HandleError(Exception error) => error switch
-    {
-        SemResultadoExcecao e => NoContent(),
-        RequestInvalidaExcecao e => BadRequest(FormatErrorMessage(e.ResultadoErro, e.Erros)),
-        ExcecaoAplicacao e => BadRequest(FormatErrorMessage(e.ResultadoErro)),
-        _ => BadRequest(FormatErrorMessage(CadastroErros.Generico))
-    };
-
-    private ResultadoErro FormatErrorMessage(ResultadoErro responseErro, IEnumerable<string>? errors = null)
-    {
-        if (errors != null)
-        {
-            responseErro.Descricao = $"{responseErro.Descricao}: {string.Join("; ", errors!)}";
+            _mediator = mediator;
         }
 
-        return responseErro;
+        protected async Task<ActionResult> SendCommand(IRequest<Result> request, int statusCode = 200)
+            => await _mediator.Send(request) switch
+            {
+                (true, _) => StatusCode(statusCode),
+                (_, var error) => HandleError(error!)
+            };
+
+        protected async Task<ActionResult<T>> SendCommand<T>(IRequest<Result<T>> request, int statusCode = 200)
+            => await _mediator.Send(request).ConfigureAwait(false) switch
+            {
+                (true, var result, _) => StatusCode(statusCode, result),
+                (_, _, var error) => HandleError(error!)
+            };
+
+        protected ActionResult HandleError(Exception error) => error switch
+        {
+            NoResultException e => NoContent(),
+            InvalidRequestException e => BadRequest(FormatErrorMessage(e.ErrorResult, e.Errors)),
+            AppException e => BadRequest(FormatErrorMessage(e.ErrorResult)),
+            _ => BadRequest(FormatErrorMessage(RegistrationErrors.Generic))
+        };
+
+        private ErrorResult FormatErrorMessage(ErrorResult errorResult, IEnumerable<string>? errors = null)
+        {
+            if (errors != null)
+            {
+                errorResult.Description = $"{errorResult.Description}: {string.Join("; ", errors!)}";
+            }
+
+            return errorResult;
+        }
     }
 }

@@ -19,61 +19,7 @@ namespace Cepedi.Serasa.Cadastro.Data.Migrations
                 .HasAnnotation("ProductVersion", "7.0.17")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Cepedi.Serasa.Cadastro.Domain.Entities.ConsultaEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Data")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("IdPessoa")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("tinyint(1)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdPessoa");
-
-                    b.ToTable("Consulta", (string)null);
-                });
-
-            modelBuilder.Entity("Cepedi.Serasa.Cadastro.Domain.Entities.MovimentacaoEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DataHora")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("IdPessoa")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdTipoMovimentacao")
-                        .HasColumnType("int");
-
-                    b.Property<string>("NomeEstabelecimento")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<decimal>("Valor")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdPessoa");
-
-                    b.HasIndex("IdTipoMovimentacao");
-
-                    b.ToTable("Movimentacao", (string)null);
-                });
-
-            modelBuilder.Entity("Cepedi.Serasa.Cadastro.Domain.Entities.PessoaEntity", b =>
+            modelBuilder.Entity("Cepedi.Serasa.Cadastro.Domain.Entities.PersonEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -84,14 +30,36 @@ namespace Cepedi.Serasa.Cadastro.Data.Migrations
                         .HasMaxLength(11)
                         .HasColumnType("varchar(11)");
 
-                    b.Property<string>("Nome")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Pessoa", (string)null);
+                    b.ToTable("Person", (string)null);
+                });
+
+            modelBuilder.Entity("Cepedi.Serasa.Cadastro.Domain.Entities.QueryEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("IdPerson")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("tinyint(1)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdPerson");
+
+                    b.ToTable("Query", (string)null);
                 });
 
             modelBuilder.Entity("Cepedi.Serasa.Cadastro.Domain.Entities.ScoreEntity", b =>
@@ -100,7 +68,7 @@ namespace Cepedi.Serasa.Cadastro.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("IdPessoa")
+                    b.Property<int>("IdPerson")
                         .HasColumnType("int");
 
                     b.Property<double>("Score")
@@ -108,29 +76,61 @@ namespace Cepedi.Serasa.Cadastro.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdPessoa")
+                    b.HasIndex("IdPerson")
                         .IsUnique();
 
                     b.ToTable("Score", (string)null);
                 });
 
-            modelBuilder.Entity("Cepedi.Serasa.Cadastro.Domain.Entities.TipoMovimentacaoEntity", b =>
+            modelBuilder.Entity("Cepedi.Serasa.Cadastro.Domain.Entities.TransactionEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("NomeTipo")
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("EstablishmentName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int>("IdPerson")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdTransactionType")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdPerson");
+
+                    b.HasIndex("IdTransactionType");
+
+                    b.ToTable("Transaction", (string)null);
+                });
+
+            modelBuilder.Entity("Cepedi.Serasa.Cadastro.Domain.Entities.TransactionTypeEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("TypeName")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("TipoMovimentacao", (string)null);
+                    b.ToTable("TransactionType", (string)null);
                 });
 
-            modelBuilder.Entity("Cepedi.Serasa.Cadastro.Domain.Entities.UsuarioEntity", b =>
+            modelBuilder.Entity("Cepedi.Serasa.Cadastro.Domain.Entities.UserEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -144,68 +144,68 @@ namespace Cepedi.Serasa.Cadastro.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
-                    b.Property<string>("Nome")
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("RefreshToken")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
-                    b.Property<string>("Senha")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Usuario", (string)null);
+                    b.ToTable("User", (string)null);
                 });
 
-            modelBuilder.Entity("Cepedi.Serasa.Cadastro.Domain.Entities.ConsultaEntity", b =>
+            modelBuilder.Entity("Cepedi.Serasa.Cadastro.Domain.Entities.QueryEntity", b =>
                 {
-                    b.HasOne("Cepedi.Serasa.Cadastro.Domain.Entities.PessoaEntity", "Pessoa")
+                    b.HasOne("Cepedi.Serasa.Cadastro.Domain.Entities.PersonEntity", "Person")
                         .WithMany()
-                        .HasForeignKey("IdPessoa")
+                        .HasForeignKey("IdPerson")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Pessoa");
-                });
-
-            modelBuilder.Entity("Cepedi.Serasa.Cadastro.Domain.Entities.MovimentacaoEntity", b =>
-                {
-                    b.HasOne("Cepedi.Serasa.Cadastro.Domain.Entities.PessoaEntity", "Pessoa")
-                        .WithMany()
-                        .HasForeignKey("IdPessoa")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Cepedi.Serasa.Cadastro.Domain.Entities.TipoMovimentacaoEntity", "TipoMovimentacao")
-                        .WithMany()
-                        .HasForeignKey("IdTipoMovimentacao")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pessoa");
-
-                    b.Navigation("TipoMovimentacao");
+                    b.Navigation("Person");
                 });
 
             modelBuilder.Entity("Cepedi.Serasa.Cadastro.Domain.Entities.ScoreEntity", b =>
                 {
-                    b.HasOne("Cepedi.Serasa.Cadastro.Domain.Entities.PessoaEntity", "Pessoa")
+                    b.HasOne("Cepedi.Serasa.Cadastro.Domain.Entities.PersonEntity", "Person")
                         .WithOne("Score")
-                        .HasForeignKey("Cepedi.Serasa.Cadastro.Domain.Entities.ScoreEntity", "IdPessoa")
+                        .HasForeignKey("Cepedi.Serasa.Cadastro.Domain.Entities.ScoreEntity", "IdPerson")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Pessoa");
+                    b.Navigation("Person");
                 });
 
-            modelBuilder.Entity("Cepedi.Serasa.Cadastro.Domain.Entities.PessoaEntity", b =>
+            modelBuilder.Entity("Cepedi.Serasa.Cadastro.Domain.Entities.TransactionEntity", b =>
                 {
-                    b.Navigation("Score");
+                    b.HasOne("Cepedi.Serasa.Cadastro.Domain.Entities.PersonEntity", "Person")
+                        .WithMany()
+                        .HasForeignKey("IdPerson")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cepedi.Serasa.Cadastro.Domain.Entities.TransactionTypeEntity", "TransationType")
+                        .WithMany()
+                        .HasForeignKey("IdTransactionType")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Person");
+
+                    b.Navigation("TransationType");
+                });
+
+            modelBuilder.Entity("Cepedi.Serasa.Cadastro.Domain.Entities.PersonEntity", b =>
+                {
+                    b.Navigation("Score")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

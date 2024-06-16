@@ -14,34 +14,34 @@ namespace Cepedi.Serasa.Cadastro.Domain.Tests.Handlers.Score;
 public class CriarScoreRequestHandlerTests
 {
     private readonly IScoreRepository _scoreRepository = Substitute.For<IScoreRepository>();
-    private readonly IPessoaRepository _pessoaRepository = Substitute.For<IPessoaRepository>();
+    private readonly IPersonRepository _PersonRepository = Substitute.For<IPersonRepository>();
     private readonly ILogger<CriarScoreRequestHandler> _logger = Substitute.For<ILogger<CriarScoreRequestHandler>>();
     private readonly CriarScoreRequestHandler _sut;
 
     public CriarScoreRequestHandlerTests()
     {
-        _sut = new CriarScoreRequestHandler(_scoreRepository, _logger, _pessoaRepository);
+        _sut = new CriarScoreRequestHandler(_scoreRepository, _logger, _PersonRepository);
     }
 
     [Fact]
     public async Task Handle_QuandoCriarScore_DeveRetornarSucesso()
     {
         // Arrange
-        var pessoa = new PessoaEntity
+        var Person = new PersonEntity
         {
             Id = 1,
-            Nome = "João",
+            Name = "João",
             CPF = "12345678901"
         };
 
         var request = new CriarScoreRequest
         {
-            IdPessoa = pessoa.Id,
+            IdPerson = Person.Id,
             Score = 750
         };
 
-        _pessoaRepository.ObterPessoaAsync(request.IdPessoa).Returns(Task.FromResult(pessoa));
-        _scoreRepository.ObterPessoaScoreAsync(request.IdPessoa).Returns(Task.FromResult<ScoreEntity>(null));
+        _PersonRepository.ObterPersonAsync(request.IdPerson).Returns(Task.FromResult(Person));
+        _scoreRepository.ObterPersonScoreAsync(request.IdPerson).Returns(Task.FromResult<ScoreEntity>(null));
 
         // Act
         var result = await _sut.Handle(request, CancellationToken.None);
@@ -51,26 +51,26 @@ public class CriarScoreRequestHandlerTests
             .Which.IsSuccess.Should().BeTrue();
 
         result.Value.Should().NotBeNull();
-        result.Value.IdPessoa.Should().Be(request.IdPessoa);
+        result.Value.IdPerson.Should().Be(request.IdPerson);
         result.Value.Score.Should().Be(request.Score);
 
-        await _pessoaRepository.Received(1).ObterPessoaAsync(request.IdPessoa);
-        await _scoreRepository.Received(1).ObterPessoaScoreAsync(request.IdPessoa);
-        await _scoreRepository.Received(1).CriarScoreAsync(Arg.Is<ScoreEntity>(s => s.IdPessoa == request.IdPessoa && s.Score == request.Score));
+        await _PersonRepository.Received(1).ObterPersonAsync(request.IdPerson);
+        await _scoreRepository.Received(1).ObterPersonScoreAsync(request.IdPerson);
+        await _scoreRepository.Received(1).CriarScoreAsync(Arg.Is<ScoreEntity>(s => s.IdPerson == request.IdPerson && s.Score == request.Score));
     }
 
     [Fact]
-    public async Task Handle_QuandoPessoaNaoExistir_DeveRetornarErro()
+    public async Task Handle_QuandoPersonNaoExistir_DeveRetornarErro()
     {
         // Arrange
-        var pessoaId = 999; // ID inválido que não existe no repositório
+        var PersonId = 999; // ID inválido que não existe no repositório
         var request = new CriarScoreRequest
         {
-            IdPessoa = pessoaId,
+            IdPerson = PersonId,
             Score = 750
         };
 
-        _pessoaRepository.ObterPessoaAsync(request.IdPessoa).Returns(Task.FromResult<PessoaEntity>(null));
+        _PersonRepository.ObterPersonAsync(request.IdPerson).Returns(Task.FromResult<PersonEntity>(null));
 
         // Act
         var result = await _sut.Handle(request, CancellationToken.None);
@@ -79,11 +79,11 @@ public class CriarScoreRequestHandlerTests
         result.Should().BeOfType<Result<CriarScoreResponse>>()
             .Which.IsSuccess.Should().BeFalse();
 
-        result.Exception.Should().BeOfType<Shared.Exececoes.ExcecaoAplicacao>()
-            .Which.ResultadoErro.Should().Be(CadastroErros.IdPessoaInvalido);
+        result.Exception.Should().BeOfType<Shared.Exceptions.AppException>()
+            .Which.ErrorResult.Should().Be(RegistrationErrors.IdPersonInvalido);
 
-        await _pessoaRepository.Received(1).ObterPessoaAsync(request.IdPessoa);
-        await _scoreRepository.DidNotReceive().ObterPessoaScoreAsync(Arg.Any<int>());
+        await _PersonRepository.Received(1).ObterPersonAsync(request.IdPerson);
+        await _scoreRepository.DidNotReceive().ObterPersonScoreAsync(Arg.Any<int>());
         await _scoreRepository.DidNotReceiveWithAnyArgs().CriarScoreAsync(Arg.Any<ScoreEntity>());
     }
 
@@ -91,28 +91,28 @@ public class CriarScoreRequestHandlerTests
     public async Task Handle_QuandoScoreJaExistir_DeveRetornarErro()
     {
         // Arrange
-        var pessoa = new PessoaEntity
+        var Person = new PersonEntity
         {
             Id = 1,
-            Nome = "João",
+            Name = "João",
             CPF = "12345678901"
         };
 
         var scoreEntity = new ScoreEntity
         {
             Id = 1,
-            IdPessoa = pessoa.Id,
+            IdPerson = Person.Id,
             Score = 800
         };
 
         var request = new CriarScoreRequest
         {
-            IdPessoa = pessoa.Id,
+            IdPerson = Person.Id,
             Score = 750
         };
 
-        _pessoaRepository.ObterPessoaAsync(request.IdPessoa).Returns(Task.FromResult(pessoa));
-        _scoreRepository.ObterPessoaScoreAsync(request.IdPessoa).Returns(Task.FromResult(scoreEntity));
+        _PersonRepository.ObterPersonAsync(request.IdPerson).Returns(Task.FromResult(Person));
+        _scoreRepository.ObterPersonScoreAsync(request.IdPerson).Returns(Task.FromResult(scoreEntity));
 
         // Act
         var result = await _sut.Handle(request, CancellationToken.None);
@@ -121,11 +121,11 @@ public class CriarScoreRequestHandlerTests
         result.Should().BeOfType<Result<CriarScoreResponse>>()
             .Which.IsSuccess.Should().BeFalse();
 
-        result.Exception.Should().BeOfType<Shared.Exececoes.ExcecaoAplicacao>()
-            .Which.ResultadoErro.Should().Be(CadastroErros.ScoreJaExistente);
+        result.Exception.Should().BeOfType<Shared.Exceptions.AppException>()
+            .Which.ErrorResult.Should().Be(RegistrationErrors.ScoreJaExistente);
 
-        await _pessoaRepository.Received(1).ObterPessoaAsync(request.IdPessoa);
-        await _scoreRepository.Received(1).ObterPessoaScoreAsync(request.IdPessoa);
+        await _PersonRepository.Received(1).ObterPersonAsync(request.IdPerson);
+        await _scoreRepository.Received(1).ObterPersonScoreAsync(request.IdPerson);
         await _scoreRepository.DidNotReceiveWithAnyArgs().CriarScoreAsync(Arg.Any<ScoreEntity>());
     }
 }

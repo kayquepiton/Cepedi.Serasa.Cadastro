@@ -28,7 +28,7 @@ public class ObterScoreRequestHandlerTests
         var scoreExistente = new ScoreEntity
         {
             Id = idScore,
-            IdPessoa = 1,
+            IdPerson = 1,
             Score = 750
         };
 
@@ -44,7 +44,7 @@ public class ObterScoreRequestHandlerTests
         result.Value.Should().NotBeNull();
 
         result.Value.Id.Should().Be(scoreExistente.Id);
-        result.Value.IdPessoa.Should().Be(scoreExistente.IdPessoa);
+        result.Value.IdPerson.Should().Be(scoreExistente.IdPerson);
         result.Value.Score.Should().Be(scoreExistente.Score);
 
         // Verifica se o método no repositório foi chamado corretamente

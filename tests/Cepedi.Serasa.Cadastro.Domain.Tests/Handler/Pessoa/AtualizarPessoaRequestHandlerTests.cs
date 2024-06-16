@@ -1,8 +1,8 @@
-﻿using Cepedi.Serasa.Cadastro.Shared.Requests.Pessoa;
-using Cepedi.Serasa.Cadastro.Shared.Responses.Pessoa;
-using Cepedi.Serasa.Cadastro.Shared.Validators.Pessoa;
+﻿using Cepedi.Serasa.Cadastro.Shared.Requests.Person;
+using Cepedi.Serasa.Cadastro.Shared.Responses.Person;
+using Cepedi.Serasa.Cadastro.Shared.Validators.Person;
 using Cepedi.Serasa.Cadastro.Domain.Entities;
-using Cepedi.Serasa.Cadastro.Domain.Handlers.Pessoa;
+using Cepedi.Serasa.Cadastro.Domain.Handlers.Person;
 using Cepedi.Serasa.Cadastro.Domain.Repository;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -10,77 +10,77 @@ using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using OperationResult;
 
-namespace Cepedi.Serasa.Cadastro.Domain.Tests.Handler.Pessoa;
-public class AtualizarPessoaRequestHandlerTests
+namespace Cepedi.Serasa.Cadastro.Domain.Tests.Handler.Person;
+public class AtualizarPersonRequestHandlerTests
 {
-    private readonly IPessoaRepository _pessoaRepository;
-    private readonly ILogger<AtualizarPessoaRequestHandler> _logger;
-    private readonly AtualizarPessoaRequestHandler _sut;
+    private readonly IPersonRepository _PersonRepository;
+    private readonly ILogger<AtualizarPersonRequestHandler> _logger;
+    private readonly AtualizarPersonRequestHandler _sut;
 
-    public AtualizarPessoaRequestHandlerTests()
+    public AtualizarPersonRequestHandlerTests()
     {
-        _pessoaRepository = Substitute.For<IPessoaRepository>();
-        _logger = Substitute.For<ILogger<AtualizarPessoaRequestHandler>>();
-        _sut = new AtualizarPessoaRequestHandler(_pessoaRepository, _logger);
+        _PersonRepository = Substitute.For<IPersonRepository>();
+        _logger = Substitute.For<ILogger<AtualizarPersonRequestHandler>>();
+        _sut = new AtualizarPersonRequestHandler(_PersonRepository, _logger);
     }
 
     [Fact]
-    public async Task QuandoAtualizarPessoaDeveRetornarSucesso()
+    public async Task QuandoAtualizarPersonDeveRetornarSucesso()
     {
-        var request = new AtualizarPessoaRequest
+        var request = new AtualizarPersonRequest
         {
             Id = 1,
-            Nome = "Carlos Matos",
+            Name = "Carlos Matos",
             CPF = "86088154004"
         };
 
-        var pessoaDoBanco = new PessoaEntity
+        var PersonDoBanco = new PersonEntity
         {
             Id = 1,
-            Nome = "Carlos",
+            Name = "Carlos",
             CPF = "86088154002"
         };
 
-        var pessoaAtualizada = new PessoaEntity
+        var PersonAtualizada = new PersonEntity
         {
             Id = request.Id,
-            Nome = request.Nome,
+            Name = request.Name,
             CPF = request.CPF
         };
 
-        _pessoaRepository.ObterPessoaAsync(request.Id).Returns(Task.FromResult(pessoaDoBanco));
-        _pessoaRepository.AtualizarPessoaAsync(pessoaDoBanco).Returns(Task.FromResult(pessoaAtualizada));
+        _PersonRepository.ObterPersonAsync(request.Id).Returns(Task.FromResult(PersonDoBanco));
+        _PersonRepository.AtualizarPersonAsync(PersonDoBanco).Returns(Task.FromResult(PersonAtualizada));
 
         var result = await _sut.Handle(request, CancellationToken.None);
 
-        result.Should().BeOfType<Result<AtualizarPessoaResponse>>().Which.IsSuccess.Should().BeTrue();
+        result.Should().BeOfType<Result<AtualizarPersonResponse>>().Which.IsSuccess.Should().BeTrue();
         result.Value.Should().NotBeNull();
         result.Value.Id.Should().Be(request.Id);
-        result.Value.Nome.Should().Be(request.Nome);
+        result.Value.Name.Should().Be(request.Name);
         result.Value.CPF.Should().Be(request.CPF);
 
-        await _pessoaRepository.Received(1).ObterPessoaAsync(request.Id);
-        await _pessoaRepository.Received(1).AtualizarPessoaAsync(pessoaDoBanco);
+        await _PersonRepository.Received(1).ObterPersonAsync(request.Id);
+        await _PersonRepository.Received(1).AtualizarPersonAsync(PersonDoBanco);
     }
 
     [Fact]
-    public async Task QuandoTentarAtualizarPessoaComIdQueNaoExisteDeveRetornarErro()
+    public async Task QuandoTentarAtualizarPersonComIdQueNaoExisteDeveRetornarErro()
     {
-        var request = new AtualizarPessoaRequest
+        var request = new AtualizarPersonRequest
         {
             Id = 50,
-            Nome = "Zé",
+            Name = "Zé",
             CPF = "1234"
         };
 
-        _pessoaRepository
-            .ObterPessoaAsync(request.Id).ReturnsNull();
+        _PersonRepository
+            .ObterPersonAsync(request.Id).ReturnsNull();
 
         var result = await _sut.Handle(request, CancellationToken.None);
 
-        await _pessoaRepository.Received(1).ObterPessoaAsync(request.Id);
+        await _PersonRepository.Received(1).ObterPersonAsync(request.Id);
 
-        result.Should().BeOfType<Result<AtualizarPessoaResponse>>();
+        result.Should().BeOfType<Result<AtualizarPersonResponse>>();
         result.IsSuccess.Should().BeFalse();
     }
 }

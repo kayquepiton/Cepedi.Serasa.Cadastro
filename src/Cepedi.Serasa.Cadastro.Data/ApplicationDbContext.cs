@@ -8,12 +8,12 @@ namespace Cepedi.Serasa.Cadastro.Data;
 public class ApplicationDbContext : DbContext
 {
 
-    public DbSet<UsuarioEntity> Usuario { get; set; } = default!;
-    public DbSet<ConsultaEntity> Consulta { get; set; } = default!;
-    public DbSet<PessoaEntity> Pessoa { get; set; } = default!;
-    public DbSet<TipoMovimentacaoEntity> TipoMovimentacao { get; set; } = default!;
-    public DbSet<ScoreEntity> Score { get; set; } = default!;
-    public DbSet<MovimentacaoEntity> Movimentacao { get; set; } = default!;
+    public DbSet<UserEntity> User { get; set; }
+    public DbSet<QueryEntity> Query { get; set; }
+    public DbSet<PersonEntity> Person { get; set; }
+    public DbSet<TransactionTypeEntity> TransactionType { get; set; }
+    public DbSet<ScoreEntity> Score { get; set; }
+    public DbSet<TransactionEntity> Transaction { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -26,7 +26,7 @@ public class ApplicationDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         // Configurações adicionais para a entidade UsuarioEntity
-        modelBuilder.Entity<UsuarioEntity>(entity =>
+        modelBuilder.Entity<UserEntity>(entity =>
         {
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Login).IsRequired().HasMaxLength(100);

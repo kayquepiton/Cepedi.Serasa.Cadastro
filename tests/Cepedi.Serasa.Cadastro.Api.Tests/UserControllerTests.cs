@@ -24,7 +24,7 @@ namespace Cepedi.Serasa.Cadastro.Api.Tests
         public async Task CriarUsuario_DeveEnviarRequest_Para_Mediator()
         {
             // Arrange 
-            var request = new CriarUsuarioRequest { Nome = "Denis" };
+            var request = new CriarUsuarioRequest { Name = "Denis" };
             _mediator.Send(request).ReturnsForAnyArgs(Result.Success(new CriarUsuarioResponse(1, "")));
 
             // Act

@@ -30,7 +30,7 @@ public class DeletarScoreRequestHandlerTests
         var scoreExistente = new ScoreEntity
         {
             Id = idScore,
-            IdPessoa = 1,
+            IdPerson = 1,
             Score = 750
         };
 

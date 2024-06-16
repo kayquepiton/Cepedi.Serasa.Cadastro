@@ -31,10 +31,10 @@ public class AtualizarConsultaRequestHandlerTests
             Status = true
         };
 
-        var consultaExistente = new ConsultaEntity
+        var consultaExistente = new QueryEntity
         {
             Id = request.Id,
-            IdPessoa = 1,
+            IdPerson = 1,
             Status = false,
             Data = DateTime.UtcNow
         };
@@ -50,12 +50,12 @@ public class AtualizarConsultaRequestHandlerTests
 
         result.Value.Should().NotBeNull();
         result.Value.Id.Should().Be(consultaExistente.Id);
-        result.Value.IdPessoa.Should().Be(consultaExistente.IdPessoa);
+        result.Value.IdPerson.Should().Be(consultaExistente.IdPerson);
         result.Value.Status.Should().Be(request.Status);
         result.Value.Data.Should().Be(consultaExistente.Data);
 
         await _consultaRepository.Received(1).ObterConsultaAsync(request.Id);
-        await _consultaRepository.Received(1).AtualizarConsultaAsync(Arg.Is<ConsultaEntity>(
+        await _consultaRepository.Received(1).AtualizarConsultaAsync(Arg.Is<QueryEntity>(
             c => c.Id == request.Id &&
                     c.Status == request.Status
         ));
@@ -71,7 +71,7 @@ public class AtualizarConsultaRequestHandlerTests
             Status = true
         };
 
-        _consultaRepository.ObterConsultaAsync(request.Id).Returns(Task.FromResult<ConsultaEntity>(null));
+        _consultaRepository.ObterConsultaAsync(request.Id).Returns(Task.FromResult<QueryEntity>(null));
 
         // Act
         var result = await _sut.Handle(request, CancellationToken.None);
@@ -80,8 +80,8 @@ public class AtualizarConsultaRequestHandlerTests
         result.Should().BeOfType<Result<AtualizarConsultaResponse>>()
                 .Which.IsSuccess.Should().BeFalse();
 
-        result.Exception.Should().BeOfType<Shared.Exececoes.ExcecaoAplicacao>()
-                .Which.ResultadoErro.Should().Be(CadastroErros.IdConsultaInvalido);
+        result.Exception.Should().BeOfType<Shared.Exceptions.AppException>()
+                .Which.ErrorResult.Should().Be(RegistrationErrors.IdConsultaInvalido);
     }
 }
 

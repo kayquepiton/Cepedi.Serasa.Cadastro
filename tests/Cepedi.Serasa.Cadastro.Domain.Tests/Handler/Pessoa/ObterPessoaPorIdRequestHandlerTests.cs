@@ -1,7 +1,7 @@
-﻿using Cepedi.Serasa.Cadastro.Shared.Requests.Pessoa;
-using Cepedi.Serasa.Cadastro.Shared.Responses.Pessoa;
+﻿using Cepedi.Serasa.Cadastro.Shared.Requests.Person;
+using Cepedi.Serasa.Cadastro.Shared.Responses.Person;
 using Cepedi.Serasa.Cadastro.Domain.Entities;
-using Cepedi.Serasa.Cadastro.Domain.Handlers.Pessoa;
+using Cepedi.Serasa.Cadastro.Domain.Handlers.Person;
 using Cepedi.Serasa.Cadastro.Domain.Repository;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -9,52 +9,52 @@ using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using OperationResult;
 
-namespace Cepedi.Serasa.Cadastro.Domain.Tests.Handler.Pessoa;
-public class ObterPessoaPorIdRequestHandlerTests
+namespace Cepedi.Serasa.Cadastro.Domain.Tests.Handler.Person;
+public class ObterPersonPorIdRequestHandlerTests
 {
-    private readonly IPessoaRepository _pessoaRepository;
-    private readonly ILogger<ObterPessoaPorIdRequestHandler> _logger;
-    private readonly ObterPessoaPorIdRequestHandler _sut;
+    private readonly IPersonRepository _PersonRepository;
+    private readonly ILogger<ObterPersonPorIdRequestHandler> _logger;
+    private readonly ObterPersonPorIdRequestHandler _sut;
 
-    public ObterPessoaPorIdRequestHandlerTests()
+    public ObterPersonPorIdRequestHandlerTests()
     {
-        _pessoaRepository = Substitute.For<IPessoaRepository>();
-        _logger = Substitute.For<ILogger<ObterPessoaPorIdRequestHandler>>();
-        _sut = new ObterPessoaPorIdRequestHandler(_pessoaRepository, _logger);
+        _PersonRepository = Substitute.For<IPersonRepository>();
+        _logger = Substitute.For<ILogger<ObterPersonPorIdRequestHandler>>();
+        _sut = new ObterPersonPorIdRequestHandler(_PersonRepository, _logger);
     }
 
     [Fact]
-    public async Task QuandoBuscarIdExistenteDeveRetornarPessoaResponse()
+    public async Task QuandoBuscarIdExistenteDeveRetornarPersonResponse()
     {
-        var request = new ObterPessoaPorIdRequest { Id = 1 };
+        var request = new ObterPersonPorIdRequest { Id = 1 };
 
-        var pessoa = new PessoaEntity
+        var Person = new PersonEntity
         {
             Id = request.Id,
-            Nome = "Carlos Matos",
+            Name = "Carlos Matos",
             CPF = "86088154004"
         };
 
-        _pessoaRepository.ObterPessoaAsync(request.Id).Returns(Task.FromResult(pessoa));
+        _PersonRepository.ObterPersonAsync(request.Id).Returns(Task.FromResult(Person));
 
         var result = await _sut.Handle(request, CancellationToken.None);
 
         result.Should().NotBeNull();
-        result.Should().BeOfType<Result<ObterPessoaResponse>>();
+        result.Should().BeOfType<Result<ObterPersonResponse>>();
         result.Value.Id.Should().Be(request.Id);
-        result.Value.Nome.Should().Be(pessoa.Nome);
-        result.Value.CPF.Should().Be(pessoa.CPF);
+        result.Value.Name.Should().Be(Person.Name);
+        result.Value.CPF.Should().Be(Person.CPF);
 
-        await _pessoaRepository.Received(1).ObterPessoaAsync(request.Id);
+        await _PersonRepository.Received(1).ObterPersonAsync(request.Id);
     }
 
     [Fact]
     public async Task QuandoBuscarPorIdInexistenteDeveRetornarNulo()
     {
         //Arrange
-        var request = new ObterPessoaPorIdRequest { Id = 100 };
+        var request = new ObterPersonPorIdRequest { Id = 100 };
 
-        _pessoaRepository.ObterPessoaAsync(request.Id).ReturnsNull();
+        _PersonRepository.ObterPersonAsync(request.Id).ReturnsNull();
 
         //Act
         var result = await _sut.Handle(request, CancellationToken.None);
@@ -63,6 +63,6 @@ public class ObterPessoaPorIdRequestHandlerTests
         result.Should().NotBeNull();
         result.Value.Should().BeNull();
 
-        await _pessoaRepository.Received(1).ObterPessoaAsync(request.Id);
+        await _PersonRepository.Received(1).ObterPersonAsync(request.Id);
     }
 }

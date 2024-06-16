@@ -29,13 +29,13 @@ public class AtualizarTipoMovimentacaoRequestHandlerTests
         var request = new AtualizarTipoMovimentacaoRequest
         {
             Id = 1,
-            NomeTipo = "Nova Venda"
+            TypeName = "Nova Venda"
         };
 
-        var tipoMovimentacaoExistente = new TipoMovimentacaoEntity
+        var tipoMovimentacaoExistente = new TransactionTypeEntity
         {
             Id = request.Id,
-            NomeTipo = "Venda"
+            TypeName = "Venda"
         };
 
         _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(request.Id).Returns(Task.FromResult(tipoMovimentacaoExistente));
@@ -49,12 +49,12 @@ public class AtualizarTipoMovimentacaoRequestHandlerTests
 
         result.Value.Should().NotBeNull();
         result.Value.Id.Should().Be(tipoMovimentacaoExistente.Id);
-        result.Value.NomeTipo.Should().Be(request.NomeTipo);
+        result.Value.TypeName.Should().Be(request.TypeName);
 
         await _tipoMovimentacaoRepository.Received(1).ObterTipoMovimentacaoAsync(request.Id);
-        await _tipoMovimentacaoRepository.Received(1).AtualizarTipoMovimentacaoAsync(Arg.Is<TipoMovimentacaoEntity>(
+        await _tipoMovimentacaoRepository.Received(1).AtualizarTipoMovimentacaoAsync(Arg.Is<TransactionTypeEntity>(
             tm => tm.Id == request.Id &&
-                  tm.NomeTipo == request.NomeTipo
+                  tm.TypeName == request.TypeName
         ));
     }
 
@@ -65,10 +65,10 @@ public class AtualizarTipoMovimentacaoRequestHandlerTests
         var request = new AtualizarTipoMovimentacaoRequest
         {
             Id = 1,
-            NomeTipo = "Nova Venda"
+            TypeName = "Nova Venda"
         };
 
-        _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(request.Id).Returns(Task.FromResult<TipoMovimentacaoEntity>(null));
+        _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(request.Id).Returns(Task.FromResult<TransactionTypeEntity>(null));
 
         // Act
         var result = await _sut.Handle(request, CancellationToken.None);
@@ -77,7 +77,7 @@ public class AtualizarTipoMovimentacaoRequestHandlerTests
         result.Should().BeOfType<Result<AtualizarTipoMovimentacaoResponse>>()
                 .Which.IsSuccess.Should().BeFalse();
 
-        result.Exception.Should().BeOfType<Shared.Exececoes.ExcecaoAplicacao>()
-                .Which.ResultadoErro.Should().Be(CadastroErros.IdTipoMovimentacaoInvalido);
+        result.Exception.Should().BeOfType<Shared.Exceptions.AppException>()
+                .Which.ErrorResult.Should().Be(RegistrationErrors.IdTipoMovimentacaoInvalido);
     }
 }

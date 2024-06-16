@@ -21,15 +21,15 @@ namespace Cepedi.Serasa.Cadastro.IoC
             ConfigureDbContext(services, configuration);
             services.AddMediatR(cfg =>
             cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ExcecaoPipeline<,>));
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidacaoComportamento<,>));
-            services.AddScoped<IConsultaRepository, ConsultaRepository>();
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ExceptionPipeline<,>));
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            services.AddScoped<IQueryRepository, QueryRepository>();
             ConfigurarFluentValidation(services);
-            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-            services.AddScoped<IPessoaRepository, PessoaRepository>();
-            services.AddScoped<ITipoMovimentacaoRepository, TipoMovimentacaoRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPersonRepository, PersonRepository>();
+            services.AddScoped<ITransactionTypeRepository, TransactionTypeRepository>();
             services.AddScoped<IScoreRepository, ScoreRepository>();
-            services.AddScoped<IMovimentacaoRepository, MovimentacaoRepository>();
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
             //services.AddHttpContextAccessor();
 
             services.AddHealthChecks()
@@ -39,7 +39,7 @@ namespace Cepedi.Serasa.Cadastro.IoC
         private static void ConfigurarFluentValidation(IServiceCollection services)
         {
             var abstractValidator = typeof(AbstractValidator<>);
-            var validadores = typeof(IValida)
+            var validadores = typeof(IValidate)
                 .Assembly
                 .DefinedTypes
                 .Where(type => type.BaseType?.IsGenericType is true &&

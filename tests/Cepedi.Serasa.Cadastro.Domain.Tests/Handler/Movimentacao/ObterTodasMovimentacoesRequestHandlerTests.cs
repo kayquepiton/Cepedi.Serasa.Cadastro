@@ -23,10 +23,10 @@ public class ObterTodasMovimentacoesRequestHandlerTests
     public async Task Handle_QuandoObterTodasMovimentacoes_DeveRetornarListaMovimentacoes()
     {
         // Arrange
-        var movimentacoes = new List<MovimentacaoEntity>
+        var movimentacoes = new List<TransactionEntity>
         {
-            new MovimentacaoEntity { Id = 1, IdTipoMovimentacao = 1, IdPessoa = 1, DataHora = DateTime.UtcNow.AddDays(-1), NomeEstabelecimento = "Exemplo Loja 1", Valor = 100.0m },
-            new MovimentacaoEntity { Id = 2, IdTipoMovimentacao = 2, IdPessoa = 2, DataHora = DateTime.UtcNow.AddDays(-2), NomeEstabelecimento = "Exemplo Loja 2", Valor = 200.0m }
+            new TransactionEntity { Id = 1, IdTipoMovimentacao = 1, IdPerson = 1, DataHora = DateTime.UtcNow.AddDays(-1), NameEstabelecimento = "Exemplo Loja 1", Valor = 100.0m },
+            new TransactionEntity { Id = 2, IdTipoMovimentacao = 2, IdPerson = 2, DataHora = DateTime.UtcNow.AddDays(-2), NameEstabelecimento = "Exemplo Loja 2", Valor = 200.0m }
         };
 
         _movimentacaoRepository.ObterTodasMovimentacoesAsync()
@@ -49,9 +49,9 @@ public class ObterTodasMovimentacoesRequestHandlerTests
         {
             result.Value[i].Id.Should().Be(movimentacoes[i].Id);
             result.Value[i].IdTipoMovimentacao.Should().Be(movimentacoes[i].IdTipoMovimentacao);
-            result.Value[i].IdPessoa.Should().Be(movimentacoes[i].IdPessoa);
+            result.Value[i].IdPerson.Should().Be(movimentacoes[i].IdPerson);
             result.Value[i].DataHora.Should().Be(movimentacoes[i].DataHora);
-            result.Value[i].NomeEstabelecimento.Should().Be(movimentacoes[i].NomeEstabelecimento);
+            result.Value[i].NameEstabelecimento.Should().Be(movimentacoes[i].NameEstabelecimento);
             result.Value[i].Valor.Should().Be(movimentacoes[i].Valor);
         }
 
@@ -63,7 +63,7 @@ public class ObterTodasMovimentacoesRequestHandlerTests
     public async Task Handle_QuandoNaoExistemMovimentacoes_DeveRetornarListaVazia()
     {
         // Arrange
-        var movimentacoesVazias = new List<MovimentacaoEntity>();
+        var movimentacoesVazias = new List<TransactionEntity>();
 
         _movimentacaoRepository.ObterTodasMovimentacoesAsync()
                                 .Returns(Task.FromResult(movimentacoesVazias));

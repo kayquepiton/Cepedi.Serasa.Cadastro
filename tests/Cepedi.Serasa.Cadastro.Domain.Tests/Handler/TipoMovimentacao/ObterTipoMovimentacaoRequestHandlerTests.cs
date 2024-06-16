@@ -26,10 +26,10 @@ public class ObterTipoMovimentacaoRequestHandlerTests
         // Arrange
         var idTipoMovimentacao = 1;
 
-        var tipoMovimentacaoExistente = new TipoMovimentacaoEntity
+        var tipoMovimentacaoExistente = new TransactionTypeEntity
         {
             Id = idTipoMovimentacao,
-            NomeTipo = "Compra"
+            TypeName = "Compra"
         };
 
         _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(idTipoMovimentacao)
@@ -45,7 +45,7 @@ public class ObterTipoMovimentacaoRequestHandlerTests
         result.Value.Should().NotBeNull();
 
         result.Value.Id.Should().Be(tipoMovimentacaoExistente.Id);
-        result.Value.NomeTipo.Should().Be(tipoMovimentacaoExistente.NomeTipo);
+        result.Value.TypeName.Should().Be(tipoMovimentacaoExistente.TypeName);
 
         // Verifica se o método no repositório foi chamado corretamente
         await _tipoMovimentacaoRepository.Received(1).ObterTipoMovimentacaoAsync(idTipoMovimentacao);
@@ -58,7 +58,7 @@ public class ObterTipoMovimentacaoRequestHandlerTests
         var idTipoMovimentacaoInexistente = 99;
 
         _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(idTipoMovimentacaoInexistente)
-                                    .Returns(Task.FromResult<TipoMovimentacaoEntity>(null));
+                                    .Returns(Task.FromResult<TransactionTypeEntity>(null));
 
         var request = new ObterTipoMovimentacaoRequest { Id = idTipoMovimentacaoInexistente };
 
@@ -68,8 +68,8 @@ public class ObterTipoMovimentacaoRequestHandlerTests
         // Assert
         result.Should().NotBeNull();
         result.IsSuccess.Should().BeFalse();
-        result.Exception.Should().BeOfType<Shared.Exececoes.ExcecaoAplicacao>()
-            .Which.ResultadoErro.Should().Be(CadastroErros.IdTipoMovimentacaoInvalido);
+        result.Exception.Should().BeOfType<Shared.Exceptions.AppException>()
+            .Which.ErrorResult.Should().Be(RegistrationErrors.IdTipoMovimentacaoInvalido);
 
         // Verifica se o método no repositório foi chamado corretamente
         await _tipoMovimentacaoRepository.Received(1).ObterTipoMovimentacaoAsync(idTipoMovimentacaoInexistente);

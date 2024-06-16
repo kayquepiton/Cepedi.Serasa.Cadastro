@@ -13,52 +13,52 @@ namespace Cepedi.Serasa.Cadastro.Domain.Tests.Handlers.Movimentacao;
 public class CriarMovimentacaoRequestHandlerTests
 {
     private readonly IMovimentacaoRepository _movimentacaoRepository = Substitute.For<IMovimentacaoRepository>();
-    private readonly IPessoaRepository _pessoaRepository = Substitute.For<IPessoaRepository>();
+    private readonly IPersonRepository _PersonRepository = Substitute.For<IPersonRepository>();
     private readonly ITipoMovimentacaoRepository _tipoMovimentacaoRepository = Substitute.For<ITipoMovimentacaoRepository>();
     private readonly ILogger<CriarMovimentacaoRequestHandler> _logger = Substitute.For<ILogger<CriarMovimentacaoRequestHandler>>();
     private readonly CriarMovimentacaoRequestHandler _sut;
 
     public CriarMovimentacaoRequestHandlerTests()
     {
-        _sut = new CriarMovimentacaoRequestHandler(_logger, _movimentacaoRepository, _pessoaRepository, _tipoMovimentacaoRepository);
+        _sut = new CriarMovimentacaoRequestHandler(_logger, _movimentacaoRepository, _PersonRepository, _tipoMovimentacaoRepository);
     }
 
     [Fact]
     public async Task Handle_QuandoCriarMovimentacao_DeveRetornarSucesso()
     {
         // Arrange
-        var tipoMovimentacao = new TipoMovimentacaoEntity
+        var tipoMovimentacao = new TransactionTypeEntity
         {
             Id = 1,
-            NomeTipo = "Compra"
+            TypeName = "Compra"
         };
 
-        var pessoa = new PessoaEntity
+        var Person = new PersonEntity
         {
             Id = 1,
-            Nome = "João",
+            Name = "João",
             CPF = "12345678901"
         };
 
         var request = new CriarMovimentacaoRequest
         {
             IdTipoMovimentacao = tipoMovimentacao.Id,
-            IdPessoa = pessoa.Id,
-            NomeEstabelecimento = "Exemplo Loja",
+            IdPerson = Person.Id,
+            NameEstabelecimento = "Exemplo Loja",
             Valor = 100.0m
         };
 
-        var movimentacaoCriada = new MovimentacaoEntity
+        var movimentacaoCriada = new TransactionEntity
         {
             Id = 1,
             IdTipoMovimentacao = tipoMovimentacao.Id,
-            IdPessoa = pessoa.Id,
+            IdPerson = Person.Id,
             DataHora = DateTime.UtcNow,
-            NomeEstabelecimento = request.NomeEstabelecimento,
+            NameEstabelecimento = request.NameEstabelecimento,
             Valor = request.Valor,
         };
 
-        _pessoaRepository.ObterPessoaAsync(request.IdPessoa).Returns(Task.FromResult(pessoa));
+        _PersonRepository.ObterPersonAsync(request.IdPerson).Returns(Task.FromResult(Person));
         _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(request.IdTipoMovimentacao).Returns(Task.FromResult(tipoMovimentacao));
 
         // Act
@@ -70,13 +70,13 @@ public class CriarMovimentacaoRequestHandlerTests
 
         result.Value.Should().NotBeNull();
         result.Value.IdTipoMovimentacao.Should().Be(tipoMovimentacao.Id);
-        result.Value.IdPessoa.Should().Be(pessoa.Id);
-        result.Value.NomeEstabelecimento.Should().Be(request.NomeEstabelecimento);
+        result.Value.IdPerson.Should().Be(Person.Id);
+        result.Value.NameEstabelecimento.Should().Be(request.NameEstabelecimento);
         result.Value.Valor.Should().Be(request.Valor);
 
-        await _pessoaRepository.Received(1).ObterPessoaAsync(request.IdPessoa);
+        await _PersonRepository.Received(1).ObterPersonAsync(request.IdPerson);
         await _tipoMovimentacaoRepository.Received(1).ObterTipoMovimentacaoAsync(request.IdTipoMovimentacao);
-        await _movimentacaoRepository.Received(1).CriarMovimentacaoAsync(Arg.Any<MovimentacaoEntity>());
+        await _movimentacaoRepository.Received(1).CriarMovimentacaoAsync(Arg.Any<TransactionEntity>());
     }
 
     [Fact]
@@ -84,23 +84,23 @@ public class CriarMovimentacaoRequestHandlerTests
     {
         // Arrange
         var tipoMovimentacaoId = 999; // ID inválido que não existe no repositório
-        var pessoa = new PessoaEntity
+        var Person = new PersonEntity
         {
             Id = 1,
-            Nome = "João",
+            Name = "João",
             CPF = "12345678901"
         };
 
         var request = new CriarMovimentacaoRequest
         {
             IdTipoMovimentacao = tipoMovimentacaoId,
-            IdPessoa = pessoa.Id,
-            NomeEstabelecimento = "Exemplo Loja",
+            IdPerson = Person.Id,
+            NameEstabelecimento = "Exemplo Loja",
             Valor = 100.0m
         };
 
-        _pessoaRepository.ObterPessoaAsync(request.IdPessoa).Returns(Task.FromResult(pessoa));
-        _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(request.IdTipoMovimentacao).Returns(Task.FromResult<TipoMovimentacaoEntity>(null));
+        _PersonRepository.ObterPersonAsync(request.IdPerson).Returns(Task.FromResult(Person));
+        _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(request.IdTipoMovimentacao).Returns(Task.FromResult<TransactionTypeEntity>(null));
 
         // Act
         var result = await _sut.Handle(request, CancellationToken.None);
@@ -109,34 +109,34 @@ public class CriarMovimentacaoRequestHandlerTests
         result.Should().BeOfType<Result<CriarMovimentacaoResponse>>()
             .Which.IsSuccess.Should().BeFalse();
 
-        result.Exception.Should().BeOfType<Shared.Exececoes.ExcecaoAplicacao>()
-                .Which.ResultadoErro.Should().Be(CadastroErros.IdTipoMovimentacaoInvalido);
+        result.Exception.Should().BeOfType<Shared.Exceptions.AppException>()
+                .Which.ErrorResult.Should().Be(RegistrationErrors.IdTipoMovimentacaoInvalido);
 
-        await _pessoaRepository.Received(1).ObterPessoaAsync(request.IdPessoa);
+        await _PersonRepository.Received(1).ObterPersonAsync(request.IdPerson);
         await _tipoMovimentacaoRepository.Received(1).ObterTipoMovimentacaoAsync(request.IdTipoMovimentacao);
-        await _movimentacaoRepository.DidNotReceiveWithAnyArgs().CriarMovimentacaoAsync(Arg.Any<MovimentacaoEntity>());                }
+        await _movimentacaoRepository.DidNotReceiveWithAnyArgs().CriarMovimentacaoAsync(Arg.Any<TransactionEntity>());                }
 
     [Fact]
-    public async Task Handle_QuandoPessoaNaoExistir_DeveRetornarErro()
+    public async Task Handle_QuandoPersonNaoExistir_DeveRetornarErro()
     {
         // Arrange
-        var tipoMovimentacao = new TipoMovimentacaoEntity
+        var tipoMovimentacao = new TransactionTypeEntity
         {
             Id = 1,
-            NomeTipo = "Compra"
+            TypeName = "Compra"
         };
 
-        var pessoaId = 999; // ID inválido que não existe no repositório
+        var PersonId = 999; // ID inválido que não existe no repositório
         var request = new CriarMovimentacaoRequest
         {
             IdTipoMovimentacao = tipoMovimentacao.Id,
-            IdPessoa = pessoaId,
-            NomeEstabelecimento = "Exemplo Loja",
+            IdPerson = PersonId,
+            NameEstabelecimento = "Exemplo Loja",
             Valor = 100.0m
         };
 
-        _pessoaRepository.ObterPessoaAsync(request.IdPessoa).Returns(Task.FromResult<PessoaEntity>(null));
-        _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(request.IdTipoMovimentacao).Returns(Task.FromResult<TipoMovimentacaoEntity>(tipoMovimentacao));
+        _PersonRepository.ObterPersonAsync(request.IdPerson).Returns(Task.FromResult<PersonEntity>(null));
+        _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(request.IdTipoMovimentacao).Returns(Task.FromResult<TransactionTypeEntity>(tipoMovimentacao));
 
         // Act
         var result = await _sut.Handle(request, CancellationToken.None);
@@ -145,12 +145,12 @@ public class CriarMovimentacaoRequestHandlerTests
         result.Should().BeOfType<Result<CriarMovimentacaoResponse>>()
             .Which.IsSuccess.Should().BeFalse();
 
-        result.Exception.Should().BeOfType<Shared.Exececoes.ExcecaoAplicacao>()
-            .Which.ResultadoErro.Should().Be(CadastroErros.IdPessoaInvalido);
+        result.Exception.Should().BeOfType<Shared.Exceptions.AppException>()
+            .Which.ErrorResult.Should().Be(RegistrationErrors.IdPersonInvalido);
 
-        await _pessoaRepository.Received(1).ObterPessoaAsync(request.IdPessoa);
+        await _PersonRepository.Received(1).ObterPersonAsync(request.IdPerson);
         await _tipoMovimentacaoRepository.DidNotReceive().ObterTipoMovimentacaoAsync(request.IdTipoMovimentacao);
-        await _movimentacaoRepository.DidNotReceiveWithAnyArgs().CriarMovimentacaoAsync(Arg.Any<MovimentacaoEntity>());
+        await _movimentacaoRepository.DidNotReceiveWithAnyArgs().CriarMovimentacaoAsync(Arg.Any<TransactionEntity>());
     }
 
 }

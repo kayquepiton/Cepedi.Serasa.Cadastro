@@ -22,21 +22,21 @@ public class ObterTodasConsultasRequestHandlerTests
     public async Task Handle_QuandoObterTodasConsultas_DeveRetornarTodasConsultas()
     {
         // Arrange
-        var consultas = new List<ConsultaEntity>
+        var consultas = new List<QueryEntity>
         {
-            new ConsultaEntity
+            new QueryEntity
             {
                 Id = 1,
                 Status = true,
                 Data = DateTime.UtcNow.AddDays(-1),
-                IdPessoa = 1
+                IdPerson = 1
             },
-            new ConsultaEntity
+            new QueryEntity
             {
                 Id = 2,
                 Status = true,
                 Data = DateTime.UtcNow.AddDays(-1),
-                IdPessoa = 2
+                IdPerson = 2
             }
         };
 
@@ -60,7 +60,7 @@ public class ObterTodasConsultasRequestHandlerTests
             result.Value[i].Id.Should().Be(consultas[i].Id);
             result.Value[i].Status.Should().Be(consultas[i].Status);
             result.Value[i].Data.Should().Be(consultas[i].Data);
-            result.Value[i].IdPessoa.Should().Be(consultas[i].IdPessoa);
+            result.Value[i].IdPerson.Should().Be(consultas[i].IdPerson);
         }
 
         await _consultaRepository.Received(1).ObterTodasConsultasAsync();
@@ -72,7 +72,7 @@ public class ObterTodasConsultasRequestHandlerTests
     {
         //Arrange
 
-        var consultasVazias = new List<ConsultaEntity>();
+        var consultasVazias = new List<QueryEntity>();
 
         _consultaRepository.ObterTodasConsultasAsync()
                             .Returns(Task.FromResult(consultasVazias));

@@ -76,7 +76,7 @@ public class AtualizarScoreRequestHandlerTests
         result.Should().BeOfType<Result<AtualizarScoreResponse>>()
                 .Which.IsSuccess.Should().BeFalse();
 
-        result.Exception.Should().BeOfType<Shared.Exececoes.ExcecaoAplicacao>()
-                .Which.ResultadoErro.Should().Be(CadastroErros.IdScoreInvalido);
+        result.Exception.Should().BeOfType<Shared.Exceptions.AppException>()
+                .Which.ErrorResult.Should().Be(RegistrationErrors.IdScoreInvalido);
     }
 }

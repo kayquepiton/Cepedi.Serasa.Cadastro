@@ -28,12 +28,12 @@ public class DeletarConsultaRequestHandlerTests
 
         var idConsulta = 1;
 
-        var consultaExistente = new ConsultaEntity
+        var consultaExistente = new QueryEntity
         {
             Id = idConsulta,
             Status = true,
             Data = DateTime.UtcNow.AddDays(-1),
-            IdPessoa = 1
+            IdPerson = 1
         };
 
         _consultaRepository.ObterConsultaAsync(idConsulta)
@@ -59,7 +59,7 @@ public class DeletarConsultaRequestHandlerTests
         var idConsultaInexistente = 123;
 
         _consultaRepository.ObterConsultaAsync(idConsultaInexistente)
-                            .Returns(Task.FromResult<ConsultaEntity>(null));
+                            .Returns(Task.FromResult<QueryEntity>(null));
 
         //Act
         var result = await _sut.Handle(new DeletarConsultaRequest { Id = idConsultaInexistente }, CancellationToken.None);

@@ -27,21 +27,21 @@ public class AtualizarUsuarioRequestHandlerTests
     public async Task AtualizarUsuarioAsync_QuandoAtualizar_DeveRetornarSucesso()
     {
         //Arrange 
-        var usuario = new AtualizarUsuarioRequest { Nome= "Denis" };
-        var usuarioEntity = new UsuarioEntity { Nome = "Denis" };
-        _usuarioRepository.ObterUsuarioAsync(It.IsAny<int>()).ReturnsForAnyArgs(new UsuarioEntity());
-        _usuarioRepository.AtualizarUsuarioAsync(It.IsAny<UsuarioEntity>())
-            .ReturnsForAnyArgs(usuarioEntity);
+        var usuario = new AtualizarUsuarioRequest { Name= "Denis" };
+        var UserEntity = new UserEntity { Name = "Denis" };
+        _usuarioRepository.ObterUsuarioAsync(It.IsAny<int>()).ReturnsForAnyArgs(new UserEntity());
+        _usuarioRepository.AtualizarUsuarioAsync(It.IsAny<UserEntity>())
+            .ReturnsForAnyArgs(UserEntity);
 
         //Act
         var result = await _sut.Handle(usuario, CancellationToken.None);
 
         //Assert 
         result.Should().BeOfType<Result<AtualizarUsuarioResponse>>().Which
-            .Value.nome.Should().Be(usuario.Nome);
+            .Value.Name.Should().Be(usuario.Name);
 
         result.Should().BeOfType<Result<AtualizarUsuarioResponse>>().Which
-            .Value.nome.Should().NotBeEmpty();
+            .Value.Name.Should().NotBeEmpty();
     }
 
 }*/

@@ -24,13 +24,13 @@ public class ObterMovimentacaoRequestHandlerTests
         // Arrange
         var idMovimentacao = 1;
 
-        var movimentacaoExistente = new MovimentacaoEntity
+        var movimentacaoExistente = new TransactionEntity
         {
             Id = idMovimentacao,
             IdTipoMovimentacao = 1,
-            IdPessoa = 1,
+            IdPerson = 1,
             DataHora = DateTime.UtcNow.AddDays(-1),
-            NomeEstabelecimento = "Exemplo Loja",
+            NameEstabelecimento = "Exemplo Loja",
             Valor = 100.0m
         };
 
@@ -48,9 +48,9 @@ public class ObterMovimentacaoRequestHandlerTests
 
         result.Value.Id.Should().Be(movimentacaoExistente.Id);
         result.Value.IdTipoMovimentacao.Should().Be(movimentacaoExistente.IdTipoMovimentacao);
-        result.Value.IdPessoa.Should().Be(movimentacaoExistente.IdPessoa);
+        result.Value.IdPerson.Should().Be(movimentacaoExistente.IdPerson);
         result.Value.DataHora.Should().BeCloseTo(movimentacaoExistente.DataHora, precision: TimeSpan.FromSeconds(1));
-        result.Value.NomeEstabelecimento.Should().Be(movimentacaoExistente.NomeEstabelecimento);
+        result.Value.NameEstabelecimento.Should().Be(movimentacaoExistente.NameEstabelecimento);
         result.Value.Valor.Should().Be(movimentacaoExistente.Valor);
 
         // Verifica se o método no repositório foi chamado corretamente
@@ -64,7 +64,7 @@ public class ObterMovimentacaoRequestHandlerTests
         var idMovimentacaoInexistente = 99;
 
         _movimentacaoRepository.ObterMovimentacaoAsync(idMovimentacaoInexistente)
-                                .Returns(Task.FromResult<MovimentacaoEntity>(null));
+                                .Returns(Task.FromResult<TransactionEntity>(null));
 
         var request = new ObterMovimentacaoRequest { Id = idMovimentacaoInexistente };
 

@@ -1,9 +1,10 @@
 using Serilog;
 using Cepedi.Serasa.Cadastro.IoC;
 using Cepedi.Serasa.Cadastro.Api;
+using Cepedi.Serasa.Cadastro.Api.Extension;
 using Cepedi.Serasa.Cadastro.Domain.Configuration;
 using Cepedi.Serasa.Cadastro.Domain.Services;
-using Cepedi.Serasa.Cadastro.Domain.Services.Implementacao;
+using Cepedi.Serasa.Cadastro.Domain.Services.Implementation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;

@@ -1,84 +1,84 @@
-﻿using Cepedi.Serasa.Cadastro.Shared.Requests.Pessoa;
-using Cepedi.Serasa.Cadastro.Shared.Responses.Pessoa;
-using Cepedi.Serasa.Cadastro.Shared.Validators.Pessoa;
+﻿using Cepedi.Serasa.Cadastro.Shared.Requests.Person;
+using Cepedi.Serasa.Cadastro.Shared.Responses.Person;
+using Cepedi.Serasa.Cadastro.Shared.Validators.Person;
 using Cepedi.Serasa.Cadastro.Domain.Entities;
-using Cepedi.Serasa.Cadastro.Domain.Handlers.Pessoa;
+using Cepedi.Serasa.Cadastro.Domain.Handlers.Person;
 using Cepedi.Serasa.Cadastro.Domain.Repository;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using OperationResult;
 
-namespace Cepedi.Serasa.Cadastro.Domain.Tests.Handler.Pessoa;
+namespace Cepedi.Serasa.Cadastro.Domain.Tests.Handler.Person;
 
-public class CriarPessoaRequestHandlerTests
+public class CriarPersonRequestHandlerTests
 {
-    private readonly IPessoaRepository _pessoaRepository;
-    private readonly ILogger<CriarPessoaRequestHandler> _logger;
-    private readonly CriarPessoaRequestHandler _sut;
+    private readonly IPersonRepository _PersonRepository;
+    private readonly ILogger<CriarPersonRequestHandler> _logger;
+    private readonly CriarPersonRequestHandler _sut;
 
-    public CriarPessoaRequestHandlerTests()
+    public CriarPersonRequestHandlerTests()
     {
-        _pessoaRepository = Substitute.For<IPessoaRepository>();
-        _logger = Substitute.For<ILogger<CriarPessoaRequestHandler>>();
-        _sut = new CriarPessoaRequestHandler(_pessoaRepository, _logger);
+        _PersonRepository = Substitute.For<IPersonRepository>();
+        _logger = Substitute.For<ILogger<CriarPersonRequestHandler>>();
+        _sut = new CriarPersonRequestHandler(_PersonRepository, _logger);
     }
 
     [Fact]
-    public async Task QuandoCriarPessoaDeveRetornarSucesso()
+    public async Task QuandoCriarPersonDeveRetornarSucesso()
     {
         //Arrange
-        var pessoaRequest = new CriarPessoaRequest
+        var PersonRequest = new CriarPersonRequest
         {
-            Nome = "Fernando Lima",
+            Name = "Fernando Lima",
             CPF = "43669795006"
         };
 
-        var pessoa = new PessoaEntity
+        var Person = new PersonEntity
         {
-            Nome = pessoaRequest.Nome,
-            CPF = pessoaRequest.CPF
+            Name = PersonRequest.Name,
+            CPF = PersonRequest.CPF
         };
 
-        _pessoaRepository.CriarPessoaAsync(Arg.Is<PessoaEntity>(pessoa => pessoa.Nome == pessoaRequest.Nome
-        && pessoa.CPF == pessoaRequest.CPF)).Returns(pessoa);
+        _PersonRepository.CriarPersonAsync(Arg.Is<PersonEntity>(Person => Person.Name == PersonRequest.Name
+        && Person.CPF == PersonRequest.CPF)).Returns(Person);
 
         //Act
-        var result = await _sut.Handle(pessoaRequest, CancellationToken.None);
+        var result = await _sut.Handle(PersonRequest, CancellationToken.None);
 
         //Assert
-        result.Should().BeOfType<Result<CriarPessoaResponse>>()
-            .Which.Value.Nome.Should().Be(pessoaRequest.Nome);
+        result.Should().BeOfType<Result<CriarPersonResponse>>()
+            .Which.Value.Name.Should().Be(PersonRequest.Name);
 
-        result.Should().BeOfType<Result<CriarPessoaResponse>>()
-            .Which.Value.CPF.Should().Be(pessoaRequest.CPF);
+        result.Should().BeOfType<Result<CriarPersonResponse>>()
+            .Which.Value.CPF.Should().Be(PersonRequest.CPF);
 
-        await _pessoaRepository.Received(1)
-            .CriarPessoaAsync(Arg.Is<PessoaEntity>(pessoa => pessoa.Nome == pessoaRequest.Nome && pessoa.CPF == pessoaRequest.CPF));
+        await _PersonRepository.Received(1)
+            .CriarPersonAsync(Arg.Is<PersonEntity>(Person => Person.Name == PersonRequest.Name && Person.CPF == PersonRequest.CPF));
     }
 
     [Fact]
-    public async Task QuandoCriarPessoaComDataInvalidosDeveRetornarErro()
+    public async Task QuandoCriarPersonComDataInvalidosDeveRetornarErro()
     {
         //Arrange
-        var pessoaRequest = new CriarPessoaRequest
+        var PersonRequest = new CriarPersonRequest
         {
-            Nome = "Ze",
+            Name = "Ze",
             CPF = "123"
         };
 
-        var validator = new CriarPessoaRequestValidator();
+        var validator = new CriarPersonRequestValidator();
 
         //Act
-        var validationResult = validator.Validate(pessoaRequest);
-        var result = await _sut.Handle(pessoaRequest, CancellationToken.None);
+        var validationResult = validator.Validate(PersonRequest);
+        var result = await _sut.Handle(PersonRequest, CancellationToken.None);
 
         //Assert
-        await _pessoaRepository.Received(1)
-            .CriarPessoaAsync(Arg.Is<PessoaEntity>(pessoa => pessoa.Nome == pessoaRequest.Nome && pessoa.CPF == pessoaRequest.CPF));
+        await _PersonRepository.Received(1)
+            .CriarPersonAsync(Arg.Is<PersonEntity>(Person => Person.Name == PersonRequest.Name && Person.CPF == PersonRequest.CPF));
 
         validationResult.IsValid.Should().BeFalse();
-        result.Should().BeOfType<Result<CriarPessoaResponse>>();
+        result.Should().BeOfType<Result<CriarPersonResponse>>();
         result.IsSuccess.Should().BeTrue();
     }
 }

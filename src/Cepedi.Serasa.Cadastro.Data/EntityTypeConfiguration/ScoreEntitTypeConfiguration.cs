@@ -13,11 +13,10 @@ namespace Cepedi.Serasa.Cadastro.Data.EntityTypeConfiguration
 
             builder.Property(e => e.Score).IsRequired();
 
-            // Configurar relacionamento um-para-um com PessoaEntity
-            builder.HasOne(e => e.Pessoa)
+            builder.HasOne(e => e.Person)
                    .WithOne(p => p.Score)
-                   .HasForeignKey<ScoreEntity>(e => e.IdPessoa)
-                   .IsRequired(); // Define que é obrigatório ter uma pessoa associada a um score
+                   .HasForeignKey<ScoreEntity>(e => e.IdPerson)
+                   .IsRequired(); 
         }
     }
 }
