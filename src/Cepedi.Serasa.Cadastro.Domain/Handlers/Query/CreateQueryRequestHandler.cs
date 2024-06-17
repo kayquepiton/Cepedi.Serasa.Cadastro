@@ -22,7 +22,7 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Query
 
         public async Task<Result<CreateQueryResponse>> Handle(CreateQueryRequest request, CancellationToken cancellationToken)
         {
-            var person = await _queryRepository.GetPersonForQueryAsync(request.IdPerson);
+            var person = await _queryRepository.GetPersonForQueryAsync(request.PersonId);
             if (person is null)
             {
                 return Result.Error<CreateQueryResponse>(new Shared.Exceptions.AppException(RegistrationErrors.InvalidPersonId));
@@ -32,13 +32,13 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Query
             {
                 Status = request.Status,
                 Date = request.Date,
-                IdPerson = request.IdPerson,
+                PersonId = request.PersonId,
             };
 
             await _queryRepository.CreateQueryAsync(query);
 
             var response = new CreateQueryResponse(query.Id,
-                                                   query.IdPerson,
+                                                   query.PersonId,
                                                    query.Status,
                                                    query.Date);
             return Result.Success(response);

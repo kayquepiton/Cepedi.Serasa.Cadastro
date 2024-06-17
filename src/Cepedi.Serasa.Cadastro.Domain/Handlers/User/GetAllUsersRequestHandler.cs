@@ -36,7 +36,7 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers
                 response.Add(new GetAllUsersResponse(
                     user.Id,
                     user.Name,
-                    user.Login
+                    user.Username
                 ));
             }
 

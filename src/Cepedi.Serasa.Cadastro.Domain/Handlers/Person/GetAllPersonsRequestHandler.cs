@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Person
 {
-    public class GetAllPersonsRequestHandler : IRequestHandler<GetAllPersonsRequest, Result<IEnumerable<GetPersonResponse>>>
+    public class GetAllPersonsRequestHandler : IRequestHandler<GetAllPersonsRequest, Result<IEnumerable<GetPersonByIdResponse>>>
     {
         private readonly IPersonRepository _personRepository;
         private readonly ILogger<GetAllPersonsRequestHandler> _logger;
@@ -24,13 +24,13 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Person
             _logger = logger;
         }
 
-        public async Task<Result<IEnumerable<GetPersonResponse>>> Handle(GetAllPersonsRequest request, CancellationToken cancellationToken)
+        public async Task<Result<IEnumerable<GetPersonByIdResponse>>> Handle(GetAllPersonsRequest request, CancellationToken cancellationToken)
         {
-            var persons = await _personRepository.GetPersonsAsync();
+            var persons = await _personRepository.GetAllPersonsAsync();
 
             return !persons.Any()
-                ? Result.Error<IEnumerable<GetPersonResponse>>(new Shared.Exceptions.AppException(RegistrationErrors.InvalidPersonId))
-                : Result.Success(persons.Select(person => new GetPersonResponse(person.Id, person.Name, person.CPF)));
+                ? Result.Error<IEnumerable<GetPersonByIdResponse>>(new Shared.Exceptions.AppException(RegistrationErrors.InvalidPersonId))
+                : Result.Success(persons.Select(person => new GetPersonByIdResponse(person.Id, person.Name, person.CPF)));
         }
     }
 }

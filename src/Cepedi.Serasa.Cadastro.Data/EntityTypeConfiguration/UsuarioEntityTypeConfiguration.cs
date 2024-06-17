@@ -12,7 +12,7 @@ namespace Cepedi.Serasa.Cadastro.Data.EntityTypeConfiguration
             builder.HasKey(c => c.Id);
 
             builder.Property(c => c.Name).IsRequired();
-            builder.Property(c => c.Login).IsRequired();
+            builder.Property(c => c.Username).IsRequired();
             builder.Property(c => c.Password).IsRequired();
         }
     }

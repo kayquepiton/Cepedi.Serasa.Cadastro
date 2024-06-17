@@ -29,7 +29,7 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<UserEntity>(entity =>
         {
             entity.HasKey(e => e.Id);
-            entity.Property(e => e.Login).IsRequired().HasMaxLength(100);
+            entity.Property(e => e.Username).IsRequired().HasMaxLength(100);
             entity.Property(e => e.RefreshToken).HasMaxLength(256);
             entity.Property(e => e.ExpirationRefreshToken).IsRequired();
         });

@@ -53,14 +53,14 @@ namespace Cepedi.Serasa.Cadastro.Shared.Exceptions
             Type = ErrorType.Error
         };
 
-        public static readonly ErrorResult InvalidTransactionId = new()
+        public static readonly ErrorResult InvalTransactionIdId = new()
         {
             Title = "Invalid data",
             Description = "The specified Transaction ID is invalid",
             Type = ErrorType.Alert
         };
 
-        public static readonly ErrorResult InvalidTransactionTypeId = new()
+        public static readonly ErrorResult InvalTransactionIdIdType = new()
         {
             Title = "Invalid data",
             Description = "The specified Transaction Type ID is invalid",
@@ -81,7 +81,7 @@ namespace Cepedi.Serasa.Cadastro.Shared.Exceptions
             Type = ErrorType.Alert
         };
 
-        public static readonly ErrorResult InvalidScoreId = new()
+        public static readonly ErrorResult InvalScoreIdId = new()
         {
             Title = "Invalid data",
             Description = "The specified Score ID is invalid",
@@ -137,10 +137,10 @@ namespace Cepedi.Serasa.Cadastro.Shared.Exceptions
             Type = ErrorType.Alert
         };
 
-        public static readonly ErrorResult DuplicateLogin = new()
+        public static readonly ErrorResult DuplicateUsername = new()
         {
-            Title = "Duplicate login",
-            Description = "The provided login is already in use by another user",
+            Title = "Duplicate Username",
+            Description = "The provided Username is already in use by another user",
             Type = ErrorType.Alert
         };
 

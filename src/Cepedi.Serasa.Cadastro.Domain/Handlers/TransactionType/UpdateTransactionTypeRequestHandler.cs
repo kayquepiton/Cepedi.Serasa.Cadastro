@@ -26,7 +26,7 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.TransactionType
             if (transactionTypeEntity is null)
             {
                 return Result.Error<UpdateTransactionTypeResponse>(
-                    new Shared.Exceptions.AppException(RegistrationErrors.InvalidTransactionTypeId));
+                    new Shared.Exceptions.AppException(RegistrationErrors.InvalTransactionIdIdType));
             }
 
             transactionTypeEntity.TypeName = request.TypeName;

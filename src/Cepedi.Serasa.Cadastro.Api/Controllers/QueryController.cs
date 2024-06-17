@@ -41,15 +41,15 @@ public class QueryController : BaseController
         [FromBody] UpdateQueryRequest request) => await SendCommand(request);
 
     [HttpGet("{Id}")]
-    [ProducesResponseType(typeof(GetQueryResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetQueryByIdResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResult), StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<GetQueryResponse>> GetQueryAsync(
-        [FromRoute] GetQueryRequest request) => await SendCommand(request);
+    public async Task<ActionResult<GetQueryByIdResponse>> GetQueryAsync(
+        [FromRoute] GetQueryByIdRequest request) => await SendCommand(request);
 
     [HttpDelete("{Id}")]
-    [ProducesResponseType(typeof(DeleteQueryResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(DeleteQueryByIdResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResult), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorResult), StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<DeleteQueryResponse>> DeleteQueryAsync(
-        [FromRoute] DeleteQueryRequest request) => await SendCommand(request);
+    public async Task<ActionResult<DeleteQueryByIdResponse>> DeleteQueryAsync(
+        [FromRoute] DeleteQueryByIdRequest request) => await SendCommand(request);
 }

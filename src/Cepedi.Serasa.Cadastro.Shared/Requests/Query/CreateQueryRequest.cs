@@ -9,6 +9,6 @@ namespace Cepedi.Serasa.Cadastro.Shared.Requests.Query
     {
         public DateTime Date { get; set; }
         public bool Status { get; set; }
-        public int IdPerson { get; set; }
+        public int PersonId { get; set; }
     }
 }

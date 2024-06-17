@@ -28,7 +28,7 @@ public class AuthenticateUserRequestHandler : IRequestHandler<AuthenticateUserRe
 
     public async Task<Result<AuthenticateUserResponse>> Handle(AuthenticateUserRequest request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetUserByLoginAsync(request.Login);
+        var user = await _userRepository.GetUserByUsernameAsync(request.Username);
 
         if(user is null)
             return Result.Error<AuthenticateUserResponse>(new Cepedi.Serasa.Cadastro.Shared.Exceptions.AppException(RegistrationErrors.InvalidAuthentication));
@@ -80,7 +80,7 @@ public class AuthenticateUserRequestHandler : IRequestHandler<AuthenticateUserRe
     {
         var claims = new List<Claim>()
         {
-            new(ClaimTypes.Name, user.Login),
+            new(ClaimTypes.Name, user.Username),
             new(ClaimTypes.NameIdentifier, user.Id.ToString())
         };
         

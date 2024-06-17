@@ -6,7 +6,7 @@ namespace Cepedi.Serasa.Cadastro.Shared.Auth.Requests
 {
     public class AuthenticateUserRequest : IRequest<Result<AuthenticateUserResponse>>
     {
-        public string? Login { get; set; }
+        public string? Username { get; set; }
         public string? Password { get; set; }
     }
 }

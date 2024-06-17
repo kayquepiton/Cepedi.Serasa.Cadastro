@@ -39,16 +39,16 @@ namespace Cepedi.Serasa.Cadastro.Api.Controllers
             [FromBody] UpdateUserRequest request) => await SendCommand(request);
 
         [HttpGet("{Id}")]
-        [ProducesResponseType(typeof(GetUserResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(GetUserByIdResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResult), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<GetUserResponse>> GetUserByIdAsync(
-            [FromRoute] GetUserRequest request) => await SendCommand(request);
+        public async Task<ActionResult<GetUserByIdResponse>> GetUserByIdAsync(
+            [FromRoute] GetUserByIdRequest request) => await SendCommand(request);
 
         [HttpDelete("{Id}")]
-        [ProducesResponseType(typeof(DeleteUserResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(DeleteUserByIdResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<DeleteUserResponse>> DeleteUserAsync(
-            [FromRoute] DeleteUserRequest request) => await SendCommand(request);
+        public async Task<ActionResult<DeleteUserByIdResponse>> DeleteUserAsync(
+            [FromRoute] DeleteUserByIdRequest request) => await SendCommand(request);
     }
 }

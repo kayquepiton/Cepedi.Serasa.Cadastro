@@ -9,26 +9,26 @@ using OperationResult;
 
 namespace Cepedi.Serasa.Cadastro.Api.Tests
 {
-    public class LoginControllerTests
+    public class UsernameControllerTests
     {
         private readonly IMediator _mediator = Substitute.For<IMediator>();
-        private readonly ILogger<LoginController> _logger = Substitute.For<ILogger<LoginController>>();
-        private readonly LoginController _sut;
+        private readonly ILogger<UsernameController> _logger = Substitute.For<ILogger<UsernameController>>();
+        private readonly UsernameController _sut;
 
-        public LoginControllerTests()
+        public UsernameControllerTests()
         {
-            _sut = new LoginController(_logger, _mediator);
+            _sut = new UsernameController(_logger, _mediator);
         }
 
         [Fact]
-        public async Task CriarUsuario_DeveEnviarRequest_Para_Mediator()
+        public async Task CreateUsuario_DeveEnviarRequest_Para_Mediator()
         {
             // Arrange 
-            var request = new CriarUsuarioRequest { Name = "Denis" };
-            _mediator.Send(request).ReturnsForAnyArgs(Result.Success(new CriarUsuarioResponse(1, "")));
+            var request = new CreateUsuarioRequest { Name = "Denis" };
+            _mediator.Send(request).ReturnsForAnyArgs(Result.Success(new CreateUsuarioResponse(1, "")));
 
             // Act
-            await _sut.CriarUsuarioAsync(request);
+            await _sut.CreateUsuarioAsync(request);
 
             // Assert
             await _mediator.ReceivedWithAnyArgs().Send(request);

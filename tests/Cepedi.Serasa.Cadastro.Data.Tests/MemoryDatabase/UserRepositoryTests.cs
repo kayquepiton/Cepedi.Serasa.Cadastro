@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Cepedi.Serasa.Cadastro.Data.Tests.MemoryDatabase;
 
-public class LoginRepositoryTests
+public class UsernameRepositoryTests
 {
     [Fact]
-    public async Task Can_Get_Logins_From_Database()
+    public async Task Can_Get_Usernames_From_Database()
     {
         // Arrange
         var options = new DbContextOptionsBuilder<ApplicationDbContext>()
@@ -16,21 +16,21 @@ public class LoginRepositoryTests
 
         using (var context = new ApplicationDbContext(options))
         {
-            context.User.Add(new UserEntity { Id = 1, Name = "Login1", Celular = "7199999999", Login = "teste", Cpf = "1235567789" });
-            context.User.Add(new UserEntity { Id = 2, Name = "Login2", Celular = "7199999999", Login = "teste", Cpf = "1235567789" });
+            context.User.Add(new UserEntity { Id = 1, Name = "Username1", Celular = "7199999999", Username = "teste", Cpf = "1235567789" });
+            context.User.Add(new UserEntity { Id = 2, Name = "Username2", Celular = "7199999999", Username = "teste", Cpf = "1235567789" });
             context.SaveChanges();
         }
 
         // Act
         using (var context = new ApplicationDbContext(options))
         {
-            var LoginRepository = new UsuarioRepository(context);
-            var Logins = await LoginRepository.GetUsuariosAsync();
+            var UsernameRepository = new UsuarioRepository(context);
+            var Usernames = await UsernameRepository.GetUsuariosAsync();
 
             // Assert
-            Assert.Equal(2, Logins.Count);
-            Assert.Equal("Login1", Logins[0].Name);
-            Assert.Equal("Login2", Logins[1].Name);
+            Assert.Equal(2, Usernames.Count);
+            Assert.Equal("Username1", Usernames[0].Name);
+            Assert.Equal("Username2", Usernames[1].Name);
         }
     }
 

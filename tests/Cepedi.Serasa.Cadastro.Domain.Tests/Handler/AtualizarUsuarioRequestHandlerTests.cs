@@ -11,36 +11,36 @@ using OperationResult;
 
 namespace Cepedi.Serasa.Cadastro.Domain.Tests;
 
-public class AtualizarUsuarioRequestHandlerTests
+public class UpdateUsuarioRequestHandlerTests
 {
     private readonly IUsuarioRepository _usuarioRepository =
     Substitute.For<IUsuarioRepository>();
-    private readonly ILogger<AtualizarUsuarioRequestHandler> _logger = Substitute.For<ILogger<AtualizarUsuarioRequestHandler>>();
-    private readonly AtualizarUsuarioRequestHandler _sut;
+    private readonly ILogger<UpdateUsuarioRequestHandler> _logger = Substitute.For<ILogger<UpdateUsuarioRequestHandler>>();
+    private readonly UpdateUsuarioRequestHandler _sut;
 
-    public AtualizarUsuarioRequestHandlerTests()
+    public UpdateUsuarioRequestHandlerTests()
     {
-        _sut = new AtualizarUsuarioRequestHandler(_usuarioRepository, _logger);
+        _sut = new UpdateUsuarioRequestHandler(_usuarioRepository, _logger);
     }
 
     [Fact]
-    public async Task AtualizarUsuarioAsync_QuandoAtualizar_DeveRetornarSucesso()
+    public async Task UpdateUsuarioAsync_QuandoUpdate_DeveRetornarSucesso()
     {
         //Arrange 
-        var usuario = new AtualizarUsuarioRequest { Name= "Denis" };
+        var usuario = new UpdateUsuarioRequest { Name= "Denis" };
         var UserEntity = new UserEntity { Name = "Denis" };
-        _usuarioRepository.ObterUsuarioAsync(It.IsAny<int>()).ReturnsForAnyArgs(new UserEntity());
-        _usuarioRepository.AtualizarUsuarioAsync(It.IsAny<UserEntity>())
+        _usuarioRepository.GetUsuarioAsync(It.IsAny<int>()).ReturnsForAnyArgs(new UserEntity());
+        _usuarioRepository.UpdateUsuarioAsync(It.IsAny<UserEntity>())
             .ReturnsForAnyArgs(UserEntity);
 
         //Act
         var result = await _sut.Handle(usuario, CancellationToken.None);
 
         //Assert 
-        result.Should().BeOfType<Result<AtualizarUsuarioResponse>>().Which
+        result.Should().BeOfType<Result<UpdateUsuarioResponse>>().Which
             .Value.Name.Should().Be(usuario.Name);
 
-        result.Should().BeOfType<Result<AtualizarUsuarioResponse>>().Which
+        result.Should().BeOfType<Result<UpdateUsuarioResponse>>().Which
             .Value.Name.Should().NotBeEmpty();
     }
 

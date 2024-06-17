@@ -33,7 +33,7 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Query
             await _queryRepository.UpdateQueryAsync(query);
             
             var response = new UpdateQueryResponse(query.Id, 
-                                                  query.IdPerson, 
+                                                  query.PersonId, 
                                                   query.Status, 
                                                   query.Date);
 

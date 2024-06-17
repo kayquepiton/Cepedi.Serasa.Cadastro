@@ -6,7 +6,7 @@ namespace Cepedi.Serasa.Cadastro.Shared.Requests.Score
 {
     public class CreateScoreRequest : IRequest<Result<CreateScoreResponse>>, IValidate
     {
-        public int IdPerson { get; set; }
+        public int PersonId { get; set; }
         public double Score { get; set; }
     }
 }

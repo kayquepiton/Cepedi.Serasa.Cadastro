@@ -31,9 +31,9 @@ namespace Cepedi.Serasa.Cadastro.Data.Repositories
             return await _context.User.FindAsync(id);
         }
 
-        public async Task<UserEntity> GetUserByLoginAsync(string login)
+        public async Task<UserEntity> GetUserByUsernameAsync(string username)
         {
-            return await _context.User.FirstOrDefaultAsync(u => u.Login == login);
+            return await _context.User.FirstOrDefaultAsync(u => u.Username == username);
         }
 
         public async Task<List<UserEntity>> GetAllUsersAsync()

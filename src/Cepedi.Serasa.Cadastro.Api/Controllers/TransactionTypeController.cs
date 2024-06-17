@@ -42,15 +42,15 @@ public class TransactionTypeController : BaseController
         [FromBody] UpdateTransactionTypeRequest request) => await SendCommand(request);
 
     [HttpGet("{Id}")]
-    [ProducesResponseType(typeof(GetTransactionTypeResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetTransactionTypeByIdResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResult), StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<GetTransactionTypeResponse>> GetTransactionTypeAsync(
-        [FromRoute] GetTransactionTypeRequest request) => await SendCommand(request);
+    public async Task<ActionResult<GetTransactionTypeByIdResponse>> GetTransactionTypeAsync(
+        [FromRoute] GetTransactionTypeByIdRequest request) => await SendCommand(request);
 
     [HttpDelete("{Id}")]
-    [ProducesResponseType(typeof(DeleteTransactionTypeResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(DeleteTransactionTypeByIdResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResult), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorResult), StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<DeleteTransactionTypeResponse>> DeleteTransactionTypeAsync(
-        [FromRoute] DeleteTransactionTypeRequest request) => await SendCommand(request);
+    public async Task<ActionResult<DeleteTransactionTypeByIdResponse>> DeleteTransactionTypeAsync(
+        [FromRoute] DeleteTransactionTypeByIdRequest request) => await SendCommand(request);
 }

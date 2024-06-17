@@ -4,7 +4,7 @@ using OperationResult;
 
 namespace Cepedi.Serasa.Cadastro.Shared.Requests.Person
 {
-    public class GetAllPersonsRequest : IRequest<Result<IEnumerable<GetPersonResponse>>>
+    public class GetAllPersonsRequest : IRequest<Result<IEnumerable<GetPersonByIdResponse>>>
     {
     }
 }

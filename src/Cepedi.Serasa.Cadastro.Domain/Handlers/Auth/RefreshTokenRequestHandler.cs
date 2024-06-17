@@ -76,7 +76,7 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Auth
         {
             var claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.Name, user.Login),
+                new Claim(ClaimTypes.Name, user.Username),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
             

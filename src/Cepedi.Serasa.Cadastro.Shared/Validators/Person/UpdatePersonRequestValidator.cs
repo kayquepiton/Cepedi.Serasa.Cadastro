@@ -9,17 +9,17 @@ namespace Cepedi.Serasa.Cadastro.Shared.Validators.Person
         {
             RuleFor(person => person.Id)
                 .NotNull()
-                .WithMessage("ID is required.");
+                .WithMessage("ID é obrigatório.");
 
             RuleFor(person => person.Name)
                 .NotEmpty()
-                .WithMessage("Name is required.")
+                .WithMessage("Nome é obrigatório.")
                 .MinimumLength(3)
-                .WithMessage("Name must be at least 3 characters long.");
+                .WithMessage("O nome deve ter pelo menos 3 caracteres.");
 
             RuleFor(person => person.CPF)
                 .Matches("^[0-9]{11}$")
-                .WithMessage("CPF must contain 11 digits from 0 to 9.");
+                .WithMessage("O CPF deve conter 11 dígitos de 0 a 9.");
         }
     }
 }

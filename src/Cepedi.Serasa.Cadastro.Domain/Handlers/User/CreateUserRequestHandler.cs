@@ -24,10 +24,10 @@ namespace Cepedi.Serasa.Cadastro.Domain.User.Handlers
 
         public async Task<Result<CreateUserResponse>> Handle(CreateUserRequest request, CancellationToken cancellationToken)
         {
-            var existingUser = await _userRepository.GetUserByLoginAsync(request.Login);
+            var existingUser = await _userRepository.GetUserByUsernameAsync(request.Username);
             if (existingUser != null)
             {
-                return Result.Error<CreateUserResponse>(new Shared.Exceptions.AppException(RegistrationErrors.DuplicateLogin));
+                return Result.Error<CreateUserResponse>(new Shared.Exceptions.AppException(RegistrationErrors.DuplicateUsername));
             }
 
             string hashedPassword;
@@ -40,7 +40,7 @@ namespace Cepedi.Serasa.Cadastro.Domain.User.Handlers
             var user = new UserEntity()
             {
                 Name = request.Name,
-                Login = request.Login,
+                Username = request.Username,
                 Password = hashedPassword
             };
 

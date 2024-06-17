@@ -35,8 +35,8 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Transaction
             {
                 response.Add(new GetAllTransactionsResponse(
                     transaction.Id,
-                    transaction.IdTransactionType,
-                    transaction.IdPerson,
+                    transaction.TransactionTypeId,
+                    transaction.PersonId,
                     transaction.DateTime,
                     transaction.EstablishmentName,
                     transaction.Value));

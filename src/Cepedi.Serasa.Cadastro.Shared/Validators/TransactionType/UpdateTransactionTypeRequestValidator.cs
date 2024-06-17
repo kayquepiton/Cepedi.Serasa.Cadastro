@@ -7,16 +7,13 @@ namespace Cepedi.Serasa.Cadastro.Shared.Requests.TransactionType.Validators
         public UpdateTransactionTypeRequestValidator()
         {
             RuleFor(transactionType => transactionType.Id)
-                    .NotNull().WithMessage("The ID must be provided.")
-                    .GreaterThan(0).WithMessage("Invalid transaction type ID");
+                .NotNull().WithMessage("O ID deve ser fornecido.")
+                .GreaterThan(0).WithMessage("ID de tipo de transação inválido.");
 
             RuleFor(transactionType => transactionType.TypeName)
-                .NotEmpty()
-                .WithMessage("The name of the transaction type is required.")
-                .MinimumLength(5)
-                .WithMessage("The name of the transaction type must be at least 5 characters.")
-                .MaximumLength(30)
-                .WithMessage("The name of the transaction type must be up to 30 characters.");
+                .NotEmpty().WithMessage("O nome do tipo de transação é obrigatório.")
+                .MinimumLength(5).WithMessage("O nome do tipo de transação deve ter pelo menos 5 caracteres.")
+                .MaximumLength(30).WithMessage("O nome do tipo de transação deve ter no máximo 30 caracteres.");
         }
     }
 }

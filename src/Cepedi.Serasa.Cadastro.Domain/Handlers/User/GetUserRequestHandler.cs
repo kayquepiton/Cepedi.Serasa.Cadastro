@@ -8,30 +8,30 @@ using Cepedi.Serasa.Cadastro.Shared.Exceptions;
 
 namespace Cepedi.Serasa.Cadastro.Domain.User.Handlers
 {
-    public class GetUserRequestHandler : IRequestHandler<GetUserRequest, Result<GetUserResponse>>
+    public class GetUserByIdRequestHandler : IRequestHandler<GetUserByIdRequest, Result<GetUserByIdResponse>>
     {
         private readonly IUserRepository _userRepository;
-        private readonly ILogger<GetUserRequestHandler> _logger;
+        private readonly ILogger<GetUserByIdRequestHandler> _logger;
 
-        public GetUserRequestHandler(ILogger<GetUserRequestHandler> logger, IUserRepository userRepository)
+        public GetUserByIdRequestHandler(ILogger<GetUserByIdRequestHandler> logger, IUserRepository userRepository)
         {
             _logger = logger;
             _userRepository = userRepository;
         }
 
-        public async Task<Result<GetUserResponse>> Handle(GetUserRequest request, CancellationToken cancellationToken)
+        public async Task<Result<GetUserByIdResponse>> Handle(GetUserByIdRequest request, CancellationToken cancellationToken)
         {
             var userEntity = await _userRepository.GetUserAsync(request.Id);
 
             if (userEntity is null)
             {
-                return Result.Error<GetUserResponse>(new Shared.Exceptions.AppException(RegistrationErrors.InvalidUserId));
+                return Result.Error<GetUserByIdResponse>(new Shared.Exceptions.AppException(RegistrationErrors.InvalidUserId));
             }
 
-            var response = new GetUserResponse(
+            var response = new GetUserByIdResponse(
                 userEntity.Id,
                 userEntity.Name,
-                userEntity.Login
+                userEntity.Username
             );
 
             return Result.Success(response);

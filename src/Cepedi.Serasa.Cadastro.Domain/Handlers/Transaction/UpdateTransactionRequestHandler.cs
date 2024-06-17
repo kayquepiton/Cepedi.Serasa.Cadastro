@@ -23,12 +23,12 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Transaction
 
         public async Task<Result<UpdateTransactionResponse>> Handle(UpdateTransactionRequest request, CancellationToken cancellationToken)
         {
-            var transactionType = await _transactionTypeRepository.GetTransactionTypeAsync(request.IdTransactionType);
+            var transactionType = await _transactionTypeRepository.GetTransactionTypeAsync(request.TransactionTypeId);
             
             if (transactionType is null)
             {
                 return Result.Error<UpdateTransactionResponse>(
-                    new Shared.Exceptions.AppException(RegistrationErrors.InvalidTransactionTypeId));
+                    new Shared.Exceptions.AppException(RegistrationErrors.InvalTransactionIdIdType));
             }
 
             var transactionEntity = await _transactionRepository.GetTransactionAsync(request.Id);
@@ -36,10 +36,10 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Transaction
             if (transactionEntity is null)
             {
                 return Result.Error<UpdateTransactionResponse>(
-                    new Shared.Exceptions.AppException(RegistrationErrors.InvalidTransactionId));
+                    new Shared.Exceptions.AppException(RegistrationErrors.InvalTransactionIdId));
             }
 
-            transactionEntity.IdTransactionType = request.IdTransactionType;
+            transactionEntity.TransactionTypeId = request.TransactionTypeId;
             transactionEntity.DateTime = request.DateTime;
             transactionEntity.EstablishmentName = request.EstablishmentName;
             transactionEntity.Value = request.Value;
@@ -48,8 +48,8 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Transaction
 
             var response = new UpdateTransactionResponse(
                 transactionEntity.Id,
-                transactionEntity.IdTransactionType,
-                transactionEntity.IdPerson,
+                transactionEntity.TransactionTypeId,
+                transactionEntity.PersonId,
                 transactionEntity.DateTime,
                 transactionEntity.EstablishmentName,
                 transactionEntity.Value

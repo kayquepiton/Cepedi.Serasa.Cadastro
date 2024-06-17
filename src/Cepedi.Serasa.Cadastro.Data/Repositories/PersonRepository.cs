@@ -45,7 +45,7 @@ namespace Cepedi.Serasa.Cadastro.Data.Repositories
             return await _context.Person.FirstOrDefaultAsync(person => person.Id == id);
         }
 
-        public async Task<List<PersonEntity>> GetPersonsAsync()
+        public async Task<List<PersonEntity>> GetAllPersonsAsync()
         {
             return await _context.Person.ToListAsync();
         }

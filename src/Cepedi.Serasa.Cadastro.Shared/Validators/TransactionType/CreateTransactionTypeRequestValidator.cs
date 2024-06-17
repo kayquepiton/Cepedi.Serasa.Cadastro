@@ -8,11 +8,11 @@ namespace Cepedi.Serasa.Cadastro.Shared.Requests.TransactionType.Validators
         {
             RuleFor(transactionType => transactionType.TypeName)
                 .NotEmpty()
-                .WithMessage("The name of the transaction type is required.")
+                .WithMessage("O nome do tipo de transação é obrigatório.")
                 .MinimumLength(5)
-                .WithMessage("The name of the transaction type must be at least 5 characters.")
+                .WithMessage("O nome do tipo de transação deve ter pelo menos 5 caracteres.")
                 .MaximumLength(30)
-                .WithMessage("The name of the transaction type must be up to 30 characters.");
+                .WithMessage("O nome do tipo de transação deve ter no máximo 30 caracteres.");
         }
     }
 }

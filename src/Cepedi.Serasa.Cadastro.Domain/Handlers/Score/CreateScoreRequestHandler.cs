@@ -24,14 +24,14 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Score
 
         public async Task<Result<CreateScoreResponse>> Handle(CreateScoreRequest request, CancellationToken cancellationToken)
         {
-            var person = await _personRepository.GetPersonAsync(request.IdPerson);
+            var person = await _personRepository.GetPersonAsync(request.PersonId);
             if (person is null)
             {
                 return Result.Error<CreateScoreResponse>(
                     new Shared.Exceptions.AppException(RegistrationErrors.InvalidPersonId));
             }
 
-            var existingScore = await _scoreRepository.GetPersonScoreAsync(request.IdPerson);
+            var existingScore = await _scoreRepository.GetPersonScoreAsync(request.PersonId);
             if (existingScore != null)
             {
                 return Result.Error<CreateScoreResponse>(
@@ -41,12 +41,12 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Score
             var score = new ScoreEntity()
             {
                 Score = request.Score,
-                IdPerson = request.IdPerson,
+                PersonId = request.PersonId,
             };
 
             await _scoreRepository.CreateScoreAsync(score);
 
-            return Result.Success(new CreateScoreResponse(score.Id, score.IdPerson, score.Score));
+            return Result.Success(new CreateScoreResponse(score.Id, score.PersonId, score.Score));
         }
     }
 }

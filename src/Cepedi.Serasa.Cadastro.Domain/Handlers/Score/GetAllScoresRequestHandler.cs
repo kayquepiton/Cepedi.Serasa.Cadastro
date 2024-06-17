@@ -35,7 +35,7 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Score
             var response = new List<GetAllScoresResponse>();
             foreach (var score in scores)
             {
-                response.Add(new GetAllScoresResponse(score.Id, score.IdPerson, score.Score));
+                response.Add(new GetAllScoresResponse(score.Id, score.PersonId, score.Score));
             }
 
             return Result.Success(response);

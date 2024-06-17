@@ -11,33 +11,33 @@ using OperationResult;
 
 namespace Cepedi.Serasa.Cadastro.Domain.Tests;
 
-public class CriarUsuarioRequestHandlerTests
+public class CreateUsuarioRequestHandlerTests
 {
     private readonly IUsuarioRepository _usuarioRepository =
     Substitute.For<IUsuarioRepository>();
-    private readonly ILogger<CriarUsuarioRequestHandler> _logger = Substitute.For<ILogger<CriarUsuarioRequestHandler>>();
-    private readonly CriarUsuarioRequestHandler _sut;
+    private readonly ILogger<CreateUsuarioRequestHandler> _logger = Substitute.For<ILogger<CreateUsuarioRequestHandler>>();
+    private readonly CreateUsuarioRequestHandler _sut;
 
-    public CriarUsuarioRequestHandlerTests()
+    public CreateUsuarioRequestHandlerTests()
     {
-        _sut = new CriarUsuarioRequestHandler(_usuarioRepository, _logger);
+        _sut = new CreateUsuarioRequestHandler(_usuarioRepository, _logger);
     }
 
     [Fact]
-    public async Task CriarUsuarioAsync_QuandoCriar_DeveRetornarSucesso()
+    public async Task CreateUsuarioAsync_QuandoCreate_DeveRetornarSucesso()
     {
         //Arrange 
-        var usuario = new CriarUsuarioRequest { Name= "Denis" };
-        _usuarioRepository.CriarUsuarioAsync(It.IsAny<UserEntity>())
+        var usuario = new CreateUsuarioRequest { Name= "Denis" };
+        _usuarioRepository.CreateUsuarioAsync(It.IsAny<UserEntity>())
             .ReturnsForAnyArgs(new UserEntity());
 
         //Act
         var result = await _sut.Handle(usuario, CancellationToken.None);
 
         //Assert 
-        result.Should().BeOfType<Result<CriarUsuarioResponse>>().Which
+        result.Should().BeOfType<Result<CreateUsuarioResponse>>().Which
             .Value.Name.Should().Be(usuario.Name);
-        result.Should().BeOfType<Result<CriarUsuarioResponse>>().Which
+        result.Should().BeOfType<Result<CreateUsuarioResponse>>().Which
             .Value.Name.Should().NotBeEmpty();
     }
 

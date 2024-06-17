@@ -42,7 +42,7 @@ namespace Cepedi.Serasa.Cadastro.Data.Repositories
 
         public async Task<ScoreEntity> GetPersonScoreAsync(int id)
         {
-            return await _context.Score.FirstOrDefaultAsync(e => e.IdPerson == id);
+            return await _context.Score.FirstOrDefaultAsync(e => e.PersonId == id);
         }
 
         public async Task<ScoreEntity> DeleteScoreAsync(int id)

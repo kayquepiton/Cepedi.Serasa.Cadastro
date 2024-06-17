@@ -29,7 +29,7 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Score
 
             if (scoreEntity is null)
             {
-                return Result.Error<UpdateScoreResponse>(new Shared.Exceptions.AppException(RegistrationErrors.InvalidScoreId));
+                return Result.Error<UpdateScoreResponse>(new Shared.Exceptions.AppException(RegistrationErrors.InvalScoreIdId));
             }
 
             scoreEntity.Score = request.Score;

@@ -22,15 +22,15 @@ public class PersonController : BaseController
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<GetPersonResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<GetPersonByIdResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResult), StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<IEnumerable<GetPersonResponse>>> GetAllPersonsAsync()
+    public async Task<ActionResult<IEnumerable<GetPersonByIdResponse>>> GetAllPersonsAsync()
         => await SendCommand(new GetAllPersonsRequest());
 
     [HttpGet("{id}")]
-    [ProducesResponseType(typeof(GetPersonResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetPersonByIdResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResult), StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<GetPersonResponse>> GetPersonByIdAsync(
+    public async Task<ActionResult<GetPersonByIdResponse>> GetPersonByIdAsync(
         [FromRoute] int id)
     {
         var request = new GetPersonByIdRequest { Id = id };

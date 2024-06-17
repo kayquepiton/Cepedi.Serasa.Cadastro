@@ -7,17 +7,17 @@ namespace Cepedi.Serasa.Cadastro.Shared.Requests.Query.Validators
     {
         public CreateQueryRequestValidator()
         {
-            RuleFor(query => query.IdPerson)
-                .NotNull().WithMessage("The ID is required.")
-                .GreaterThan(0).WithMessage("Invalid query ID.");
+            RuleFor(query => query.PersonId)
+                .NotNull().WithMessage("O ID é obrigatório.")
+                .GreaterThan(0).WithMessage("ID da consulta inválido.");
 
             RuleFor(query => query.Status)
-                .NotNull().WithMessage("Status is required.")
-                .Must(status => status == true || status == false).WithMessage("Status must be true or false");
+                .NotNull().WithMessage("O status é obrigatório.")
+                .Must(status => status == true || status == false).WithMessage("O status deve ser verdadeiro ou falso.");
 
             RuleFor(query => query.Date)
-                .NotEmpty().WithMessage("Date is required.")
-                .Must(dateTime => dateTime != default(DateTime)).WithMessage("Date must be valid");
+                .NotEmpty().WithMessage("A data é obrigatória.")
+                .Must(dateTime => dateTime != default(DateTime)).WithMessage("A data deve ser válida.");
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Cepedi.Serasa.Cadastro.Domain.Repository
     {
         Task<List<UserEntity>> GetAllUsersAsync();
         Task<UserEntity> GetUserAsync(int id);
-        Task<UserEntity> GetUserByLoginAsync(string login); // New method
+        Task<UserEntity> GetUserByUsernameAsync(string username); // New method
         Task<UserEntity> GetUserByRefreshTokenAsync(string refreshToken);
         Task<UserEntity> CreateUserAsync(UserEntity user);
         Task<UserEntity> UpdateUserAsync(UserEntity user);

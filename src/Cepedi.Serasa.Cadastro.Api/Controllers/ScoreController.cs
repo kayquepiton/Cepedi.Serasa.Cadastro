@@ -41,16 +41,16 @@ namespace Cepedi.Serasa.Cadastro.Api.Controllers
             [FromBody] UpdateScoreRequest request) => await SendCommand(request);
 
         [HttpGet("{Id}")]
-        [ProducesResponseType(typeof(GetScoreResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(GetScoreByIdResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResult), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<GetScoreResponse>> GetScoreByIdAsync(
-            [FromRoute] GetScoreRequest request) => await SendCommand(request);
+        public async Task<ActionResult<GetScoreByIdResponse>> GetScoreByIdAsync(
+            [FromRoute] GetScoreByIdRequest request) => await SendCommand(request);
 
         [HttpDelete("{Id}")]
-        [ProducesResponseType(typeof(DeleteScoreResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(DeleteScoreByIdResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResult), StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<DeleteScoreResponse>> DeleteScoreAsync(
-            [FromRoute] DeleteScoreRequest request) => await SendCommand(request);
+        public async Task<ActionResult<DeleteScoreByIdResponse>> DeleteScoreAsync(
+            [FromRoute] DeleteScoreByIdRequest request) => await SendCommand(request);
     }
 }

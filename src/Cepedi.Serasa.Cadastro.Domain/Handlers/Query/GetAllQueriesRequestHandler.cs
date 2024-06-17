@@ -32,7 +32,7 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Query
             foreach (var query in queries)
             {
                 response.Add(new GetAllQueriesResponse(query.Id,
-                                                       query.IdPerson,
+                                                       query.PersonId,
                                                        query.Status,
                                                        query.Date));
             }

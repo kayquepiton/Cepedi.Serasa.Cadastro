@@ -9,29 +9,29 @@ using Cepedi.Serasa.Cadastro.Shared.Exceptions;
 
 namespace Cepedi.Serasa.Cadastro.Domain.Handlers
 {
-    public class DeleteUserRequestHandler : IRequestHandler<DeleteUserRequest, Result<DeleteUserResponse>>
+    public class DeleteUserByIdRequestHandler : IRequestHandler<DeleteUserByIdRequest, Result<DeleteUserByIdResponse>>
     {
         private readonly IUserRepository _userRepository;
-        private readonly ILogger<DeleteUserRequestHandler> _logger;
+        private readonly ILogger<DeleteUserByIdRequestHandler> _logger;
 
-        public DeleteUserRequestHandler(ILogger<DeleteUserRequestHandler> logger, IUserRepository userRepository)
+        public DeleteUserByIdRequestHandler(ILogger<DeleteUserByIdRequestHandler> logger, IUserRepository userRepository)
         {
             _logger = logger;
             _userRepository = userRepository;
         }
 
-        public async Task<Result<DeleteUserResponse>> Handle(DeleteUserRequest request, CancellationToken cancellationToken)
+        public async Task<Result<DeleteUserByIdResponse>> Handle(DeleteUserByIdRequest request, CancellationToken cancellationToken)
         {
             var userEntity = await _userRepository.GetUserAsync(request.Id);
 
             if (userEntity is null)
             {
-                return Result.Error<DeleteUserResponse>(new Shared.Exceptions.AppException(RegistrationErrors.InvalidUserId));
+                return Result.Error<DeleteUserByIdResponse>(new Shared.Exceptions.AppException(RegistrationErrors.InvalidUserId));
             }
 
             await _userRepository.DeleteUserAsync(userEntity.Id);
 
-            var response = new DeleteUserResponse(
+            var response = new DeleteUserByIdResponse(
                 userEntity.Id,
                 userEntity.Name
             );

@@ -49,7 +49,7 @@ namespace Cepedi.Serasa.Cadastro.Data.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("IdPerson")
+                    b.Property<int>("PersonId")
                         .HasColumnType("int");
 
                     b.Property<bool>("Status")
@@ -57,7 +57,7 @@ namespace Cepedi.Serasa.Cadastro.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdPerson");
+                    b.HasIndex("PersonId");
 
                     b.ToTable("Query", (string)null);
                 });
@@ -68,7 +68,7 @@ namespace Cepedi.Serasa.Cadastro.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("IdPerson")
+                    b.Property<int>("PersonId")
                         .HasColumnType("int");
 
                     b.Property<double>("Score")
@@ -76,7 +76,7 @@ namespace Cepedi.Serasa.Cadastro.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdPerson")
+                    b.HasIndex("PersonId")
                         .IsUnique();
 
                     b.ToTable("Score", (string)null);
@@ -96,10 +96,10 @@ namespace Cepedi.Serasa.Cadastro.Data.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int>("IdPerson")
+                    b.Property<int>("PersonId")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdTransactionType")
+                    b.Property<int>("TransactionTypeId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Value")
@@ -107,9 +107,9 @@ namespace Cepedi.Serasa.Cadastro.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdPerson");
+                    b.HasIndex("PersonId");
 
-                    b.HasIndex("IdTransactionType");
+                    b.HasIndex("TransactionTypeId");
 
                     b.ToTable("Transaction", (string)null);
                 });
@@ -139,11 +139,6 @@ namespace Cepedi.Serasa.Cadastro.Data.Migrations
                     b.Property<DateTime>("ExpirationRefreshToken")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Login")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -156,6 +151,11 @@ namespace Cepedi.Serasa.Cadastro.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
                     b.HasKey("Id");
 
                     b.ToTable("User", (string)null);
@@ -165,7 +165,7 @@ namespace Cepedi.Serasa.Cadastro.Data.Migrations
                 {
                     b.HasOne("Cepedi.Serasa.Cadastro.Domain.Entities.PersonEntity", "Person")
                         .WithMany()
-                        .HasForeignKey("IdPerson")
+                        .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -176,7 +176,7 @@ namespace Cepedi.Serasa.Cadastro.Data.Migrations
                 {
                     b.HasOne("Cepedi.Serasa.Cadastro.Domain.Entities.PersonEntity", "Person")
                         .WithOne("Score")
-                        .HasForeignKey("Cepedi.Serasa.Cadastro.Domain.Entities.ScoreEntity", "IdPerson")
+                        .HasForeignKey("Cepedi.Serasa.Cadastro.Domain.Entities.ScoreEntity", "PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -187,13 +187,13 @@ namespace Cepedi.Serasa.Cadastro.Data.Migrations
                 {
                     b.HasOne("Cepedi.Serasa.Cadastro.Domain.Entities.PersonEntity", "Person")
                         .WithMany()
-                        .HasForeignKey("IdPerson")
+                        .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Cepedi.Serasa.Cadastro.Domain.Entities.TransactionTypeEntity", "TransationType")
                         .WithMany()
-                        .HasForeignKey("IdTransactionType")
+                        .HasForeignKey("TransactionTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -15,7 +15,7 @@ namespace Cepedi.Serasa.Cadastro.Data.EntityTypeConfiguration
 
             builder.HasOne(e => e.Person)
                    .WithOne(p => p.Score)
-                   .HasForeignKey<ScoreEntity>(e => e.IdPerson)
+                   .HasForeignKey<ScoreEntity>(e => e.PersonId)
                    .IsRequired(); 
         }
     }

@@ -26,24 +26,24 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Transaction
 
         public async Task<Result<CreateTransactionResponse>> Handle(CreateTransactionRequest request, CancellationToken cancellationToken)
         {
-            var person = await _personRepository.GetPersonAsync(request.IdPerson);
+            var person = await _personRepository.GetPersonAsync(request.PersonId);
             if (person is null)
             {
                 return Result.Error<CreateTransactionResponse>(
                     new Shared.Exceptions.AppException(RegistrationErrors.InvalidPersonId));
             }
 
-            var transactionType = await _transactionTypeRepository.GetTransactionTypeAsync(request.IdTransactionType);
+            var transactionType = await _transactionTypeRepository.GetTransactionTypeAsync(request.TransactionTypeId);
             if (transactionType is null)
             {
                 return Result.Error<CreateTransactionResponse>(
-                    new Shared.Exceptions.AppException(RegistrationErrors.InvalidTransactionTypeId));
+                    new Shared.Exceptions.AppException(RegistrationErrors.InvalTransactionIdIdType));
             }
 
             var transaction = new TransactionEntity()
             {
-                IdTransactionType = request.IdTransactionType,
-                IdPerson = request.IdPerson,
+                TransactionTypeId = request.TransactionTypeId,
+                PersonId = request.PersonId,
                 DateTime = DateTime.UtcNow,
                 EstablishmentName = request.EstablishmentName,
                 Value = request.Value,
@@ -53,8 +53,8 @@ namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Transaction
 
             var response = new CreateTransactionResponse(
                 transaction.Id,
-                transaction.IdTransactionType,
-                transaction.IdPerson,
+                transaction.TransactionTypeId,
+                transaction.PersonId,
                 transaction.DateTime,
                 transaction.EstablishmentName,
                 transaction.Value

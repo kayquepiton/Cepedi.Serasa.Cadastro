@@ -45,7 +45,7 @@ public class ApplicationDbContextInitialiser
     {
         // Default roles
         //var usuario = new UsuarioEntity { Nome = "Denis", Celular = "71992414041", CelularValidado = true, 
-         //   Cpf = "1234567891", DataNascimento = DateTime.Now.AddYears(-31), Login = "denis.vieira@cepedi.org.br" };
+         //   Cpf = "1234567891", DataNascimento = DateTime.Now.AddYears(-31), Username = "denis.vieira@cepedi.org.br" };
 
         // Default data
         // Seed, if necessary

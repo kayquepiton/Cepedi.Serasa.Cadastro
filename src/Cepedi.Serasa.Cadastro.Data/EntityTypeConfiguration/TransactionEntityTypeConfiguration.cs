@@ -11,9 +11,9 @@ namespace Cepedi.Serasa.Cadastro.Data.EntityTypeConfiguration
             builder.ToTable("Transaction");
             builder.HasKey(c => c.Id);
 
-            builder.Property(c => c.IdPerson).IsRequired();
+            builder.Property(c => c.PersonId).IsRequired();
             builder.Property(c => c.DateTime).IsRequired(); 
-            builder.Property(c => c.IdTransactionType).IsRequired();
+            builder.Property(c => c.TransactionTypeId).IsRequired();
             builder.Property(c => c.Value).IsRequired();
 
             builder.Property(c => c.EstablishmentName).HasMaxLength(255); 
@@ -21,13 +21,13 @@ namespace Cepedi.Serasa.Cadastro.Data.EntityTypeConfiguration
 
             builder.HasOne(c => c.Person)
                    .WithMany()  
-                   .HasForeignKey(c => c.IdPerson) 
+                   .HasForeignKey(c => c.PersonId) 
                    .IsRequired();
 
 
             builder.HasOne(c => c.TransationType)
                    .WithMany()  // 
-                   .HasForeignKey(c => c.IdTransactionType)
+                   .HasForeignKey(c => c.TransactionTypeId)
                    .IsRequired();  // 
         }
     }
