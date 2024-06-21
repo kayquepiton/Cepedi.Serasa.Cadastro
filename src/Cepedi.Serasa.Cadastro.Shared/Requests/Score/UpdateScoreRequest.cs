@@ -6,7 +6,7 @@ namespace Cepedi.Serasa.Cadastro.Shared.Requests.Score
 {
     public class UpdateScoreRequest : IRequest<Result<UpdateScoreResponse>>, IValidate
     {
-        public int Id { get; set; }
-        public double Score { get; set; }
+        public required int Id { get; set; }
+        public required double Score { get; set; }
     }
 }

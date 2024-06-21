@@ -60,8 +60,8 @@ public class TokenService : ITokenService
             ValidateLifetime = false // Permitir tokens expirados
         };
 
-        SecurityToken securityToken = null;
-        ClaimsPrincipal principal = null;
+        SecurityToken? securityToken = null;
+        ClaimsPrincipal? principal = null;
 
         // Tente validar o token
         tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);

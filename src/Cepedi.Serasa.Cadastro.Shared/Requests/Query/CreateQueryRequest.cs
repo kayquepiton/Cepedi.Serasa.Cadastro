@@ -7,8 +7,8 @@ namespace Cepedi.Serasa.Cadastro.Shared.Requests.Query
 {
     public class CreateQueryRequest : IRequest<Result<CreateQueryResponse>>, IValidate
     {
-        public DateTime Date { get; set; }
-        public bool Status { get; set; }
-        public int PersonId { get; set; }
+        public required DateTime Date { get; set; }
+        public required bool Status { get; set; }
+        public required int PersonId { get; set; }
     }
 }

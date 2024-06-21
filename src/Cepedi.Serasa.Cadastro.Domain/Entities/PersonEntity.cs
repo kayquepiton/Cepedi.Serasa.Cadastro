@@ -1,8 +1,10 @@
-﻿namespace Cepedi.Serasa.Cadastro.Domain.Entities;
-public class PersonEntity
+﻿namespace Cepedi.Serasa.Cadastro.Domain.Entities
 {
-    public int Id { get; set; }
-    public required string Name { get; set; }
-    public required string CPF { get; set; }
-    public ScoreEntity Score { get; set; }
+    public class PersonEntity
+    {
+        public int Id { get; set; }
+        public required string Name { get; set; }
+        public required string CPF { get; set; }
+        public ScoreEntity? Score { get; set; }
+    }
 }

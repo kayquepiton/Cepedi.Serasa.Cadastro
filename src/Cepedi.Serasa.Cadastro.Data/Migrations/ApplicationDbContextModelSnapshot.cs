@@ -204,8 +204,7 @@ namespace Cepedi.Serasa.Cadastro.Data.Migrations
 
             modelBuilder.Entity("Cepedi.Serasa.Cadastro.Domain.Entities.PersonEntity", b =>
                 {
-                    b.Navigation("Score")
-                        .IsRequired();
+                    b.Navigation("Score");
                 });
 #pragma warning restore 612, 618
         }

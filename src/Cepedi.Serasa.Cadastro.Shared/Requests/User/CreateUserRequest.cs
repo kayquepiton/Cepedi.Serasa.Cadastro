@@ -6,8 +6,8 @@ namespace Cepedi.Serasa.Cadastro.Shared.User.Requests
 {
     public class CreateUserRequest : IRequest<Result<CreateUserResponse>>
     {
-        public string Name { get; set; } = default!;
-        public string Username { get; set; } = default!;
-        public string Password { get; set; } = default!;
+        public required string Name { get; set; } = default!;
+        public required string Username { get; set; } = default!;
+        public required string Password { get; set; } = default!;
     }
 }

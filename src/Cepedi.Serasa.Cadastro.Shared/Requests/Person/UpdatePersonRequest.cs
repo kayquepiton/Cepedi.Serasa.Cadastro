@@ -6,8 +6,8 @@ namespace Cepedi.Serasa.Cadastro.Shared.Requests.Person
 {
     public class UpdatePersonRequest : IRequest<Result<UpdatePersonResponse>>, IValidate
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string CPF { get; set; }
+        public required int Id { get; set; }
+        public required string Name { get; set; }
+        public required string CPF { get; set; }
     }
 }

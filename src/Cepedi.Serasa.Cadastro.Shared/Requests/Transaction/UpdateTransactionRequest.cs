@@ -7,10 +7,10 @@ namespace Cepedi.Serasa.Cadastro.Shared.Requests.Transaction
 {
     public class UpdateTransactionRequest : IRequest<Result<UpdateTransactionResponse>>, IValidate
     {
-        public int Id { get; set; }
-        public int TransactionTypeId { get; set; }
-        public DateTime DateTime { get; set; }
-        public string EstablishmentName { get; set; } = string.Empty;
-        public decimal Value { get; set; }
+        public required int Id { get; set; }
+        public required int TransactionTypeId { get; set; }
+        public required DateTime DateTime { get; set; }
+        public required string EstablishmentName { get; set; } = string.Empty;
+        public required decimal Value { get; set; }
     }
 }

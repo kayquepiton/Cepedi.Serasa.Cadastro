@@ -3,12 +3,7 @@ using OperationResult;
 using Cepedi.Serasa.Cadastro.Domain.Repository;
 using Microsoft.Extensions.Logging;
 using Cepedi.Serasa.Cadastro.Shared.Auth.Requests;
-using Cepedi.Serasa.Cadastro.Domain.Services;
 using Cepedi.Serasa.Cadastro.Shared.Exceptions;
-using Cepedi.Serasa.Cadastro.Shared.Enums;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Auth
 {

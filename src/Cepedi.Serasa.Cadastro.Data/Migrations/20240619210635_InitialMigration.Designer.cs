@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cepedi.Serasa.Cadastro.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240617022733_InitialMigration")]
+    [Migration("20240619210635_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -207,8 +207,7 @@ namespace Cepedi.Serasa.Cadastro.Data.Migrations
 
             modelBuilder.Entity("Cepedi.Serasa.Cadastro.Domain.Entities.PersonEntity", b =>
                 {
-                    b.Navigation("Score")
-                        .IsRequired();
+                    b.Navigation("Score");
                 });
 #pragma warning restore 612, 618
         }
